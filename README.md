@@ -2,17 +2,24 @@
 
 ## Overview
 
-Azure VMware Solution (AVS) is a first-party Microsoft service that allows you to run a fully managed VMware software-defined data center (SDDC) on Azure infrastructure.
+This is my learning space for Azure VMware Solution (AVS). I intend to use this space to document my learning journey as I quickly ramp up on AVS.
+
+This space contains notes, references, and labs that I find useful as I learn about AVS.
+
+AVS is a first-party Microsoft service that allows you to run a fully managed VMware software-defined data center (SDDC) on Azure infrastructure.
 
 With AVS, organizations can:
 
+- Save money from expensive Broadcom renewals by migrating VMware workloads to Azure.
 - Migrate VMware workloads from on-premises to Azure with minimal changes.
 - Extend their datacenter capacity on demand.
 - Integrate VMware workloads with native Azure services (storage, networking, security, monitoring, and more).
 
-## Labs
+## Lab Notes
 
-VMware
+
+- [Lab 1: Introduction to Azure VMware Solution](./Labs/MicrosoftLearn/Lab1/Notes.md) (9/22/25)
+
 
 ## References
 
