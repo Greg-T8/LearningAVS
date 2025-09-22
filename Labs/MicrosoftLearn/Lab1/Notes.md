@@ -21,6 +21,12 @@ By the end of this module, you will be able to:
 - [What is Azure VMware Solution?](#what-is-azure-vmware-solution)
   - [Key features](#key-features)
   - [Integration with Azure services](#integration-with-azure-services)
+  - [Continuity of operations](#continuity-of-operations)
+  - [Billing](#billing)
+- [How Azure VMware Solution works](#how-azure-vmware-solution-works)
+  - [Shared support](#shared-support)
+  - [Monitoring and remediation](#monitoring-and-remediation)
+  - [Private clouds, clusters, and hosts in Azure](#private-clouds-clusters-and-hosts-in-azure)
 
 ## Introduction
 
@@ -94,3 +100,82 @@ Native Azure tools and services can monitor and manage virtual machines across e
 | Azure Backup Server          | Backup VMware VMs on ESXi or vCenter to Azure.                                                            |
 | Azure Application Gateway    | Layer-7 load balancer to secure and manage web app traffic.                                               |
 | Azure Traffic Manager        | Distributes workloads across multiple endpoints for availability and performance.                         |
+
+### Continuity of operations
+
+Azure VMware Solution delivers high availability and modernization through fully managed Azure infrastructure with built-in redundancy and no single point of failure.
+
+You can deploy VMware resources in Azure as a primary or secondary recovery site, ensuring business continuity for on-premises datacenter workloads.
+
+### Billing
+
+Azure VMware Solution offers three billing options, giving customers the flexibility to adjust costs as their business needs change.
+
+
+| Billing Option            | Description                     | Common Use Cases                          |
+|----------------------------|---------------------------------|-------------------------------------------|
+| Hourly (pay as you go)     | On demand                      | Bursting, initial deployments             |
+| 1-Year Reserved Instance   | Reserved capacity for one year | Major projects, known usage patterns       |
+| 3-Year Reserved Instance   | Reserved capacity for three years | Datacenter exit scenarios, long-term strategy |
+
+## How Azure VMware Solution works
+
+### Shared support
+
+In on-premises VMware vSphere environments, customers must maintain both the hardware and software needed to run the platform. With Azure VMware Solution, Microsoft takes on platform management. Here’s how responsibilities are divided between Microsoft and the customer.
+
+<img src='images/2025-09-22-03-30-55.png' width=850>
+
+Together with VMware, Microsoft manages the life cycle of VMware software such as ESXi, vCenter Server, and vSAN. Microsoft also handles NSX appliance lifecycle management and initial network setup, including creating the Tier-0 gateway and enabling north/south routing.
+
+Customers are responsible for NSX SDN configuration, which includes:
+
+* Network segments
+* Distributed firewall rules
+* Tier-1 gateways
+* Load balancers
+
+### Monitoring and remediation
+
+Azure VMware Solution continuously checks the health of its infrastructure and VMware components. When a failure is detected, the system automatically repairs it. If a node shows signs of degradation or fails, the host remediation process begins.
+
+Host remediation replaces the faulty node with a healthy one in the cluster. When possible, the faulty host is put into VMware vSphere maintenance mode, and VMware vMotion migrates VMs to other servers—often with no downtime. If maintenance mode isn’t possible, the host is removed from the cluster.
+
+Azure VMware Solution monitors host conditions such as:
+
+* Processor status
+* Memory status
+* Connection and power state
+* Hardware fan status
+* Network connectivity
+* System board status
+* Disk errors on vSAN hosts
+* Hardware voltage
+* Temperature status
+* Power status
+* Storage health
+* Connection failures
+
+### Private clouds, clusters, and hosts in Azure
+
+Azure VMware Solution delivers private clouds built on vSphere clusters using dedicated bare-metal Azure hosts.
+
+Each private cloud can include multiple clusters managed by the same vCenter Server and NSX Manager. Private clouds are deployed and managed within an Azure subscription, and the number of private clouds per subscription can scale as needed.
+
+By default, each private cloud starts with a single vSphere cluster. You can add, remove, or scale clusters through the Azure portal or API. Microsoft provides node options based on CPU, memory, and storage needs, with AV36P being the most commonly used configuration.
+
+Node limits:
+
+* Minimum of 3 nodes per cluster
+* Maximum of 16 nodes per cluster
+* Up to 12 clusters per private cloud
+* Up to 96 nodes per private cloud
+
+The table below lists CPU, memory, disk, and network specs for available AVS hosts:
+
+| Host Type | CPU                                                                 | RAM      | vSAN Cache Tier         | vSAN Capacity  |
+|-----------|---------------------------------------------------------------------|----------|-------------------------|----------------|
+| AV36      | Dual Intel Xeon Gold 6140, 18 cores/CPU @ 2.3 GHz (36 physical cores) | 576 GB   | 3.2 TB (NVMe)           | 15.20 TB (SSD) |
+| AV36P     | Dual Intel Xeon Gold 6240, 18 cores/CPU @ 2.6 GHz / 3.9 GHz Turbo (36 physical cores) | 768 GB   | 1.5 TB (Intel Cache)    | 19.20 TB (NVMe) |
+| AV52      | Dual Intel Xeon Platinum 8270, 26 cores/CPU @ 2.7 GHz / 4.0 GHz Turbo (52 physical cores) | 1,536 GB | 1.5 TB (Intel Cache)    | 38.40 TB (NVMe) |
+| AV64*     | Dual Intel Xeon Platinum 8370C, 32 cores/CPU @ 2.8 GHz / 3.5 GHz Turbo (64 physical cores) | 1,024 GB | 3.84 TB (NVMe)          | 15.36 TB (NVMe) |
