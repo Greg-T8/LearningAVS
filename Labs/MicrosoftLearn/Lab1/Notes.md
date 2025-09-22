@@ -27,6 +27,12 @@ By the end of this module, you will be able to:
   - [Shared support](#shared-support)
   - [Monitoring and remediation](#monitoring-and-remediation)
   - [Private clouds, clusters, and hosts in Azure](#private-clouds-clusters-and-hosts-in-azure)
+  - [Interconnectivity in Azure](#interconnectivity-in-azure)
+  - [Private cloud storage](#private-cloud-storage)
+  - [Security and compliance](#security-and-compliance)
+  - [Steps for deploying Azure VMware Solution](#steps-for-deploying-azure-vmware-solution)
+- [When to use Azure VMware Solution](#when-to-use-azure-vmware-solution)
+- [Summary](#summary)
 
 ## Introduction
 
@@ -179,3 +185,139 @@ The table below lists CPU, memory, disk, and network specs for available AVS hos
 | AV36P     | Dual Intel Xeon Gold 6240, 18 cores/CPU @ 2.6 GHz / 3.9 GHz Turbo (36 physical cores) | 768 GB   | 1.5 TB (Intel Cache)    | 19.20 TB (NVMe) |
 | AV52      | Dual Intel Xeon Platinum 8270, 26 cores/CPU @ 2.7 GHz / 4.0 GHz Turbo (52 physical cores) | 1,536 GB | 1.5 TB (Intel Cache)    | 38.40 TB (NVMe) |
 | AV64*     | Dual Intel Xeon Platinum 8370C, 32 cores/CPU @ 2.8 GHz / 3.5 GHz Turbo (64 physical cores) | 1,024 GB | 3.84 TB (NVMe)          | 15.36 TB (NVMe) |
+
+> An Azure VMware Solution private cloud must first be deployed with AV36, AV36P, or AV52 before AV64 hosts can be added.
+
+Cluster configuration and operations are managed mainly through vSphere and NSX Manager. Local storage for each host is controlled by vSAN. Every ESXi host includes four 25-Gbps NICs—two for ESXi system traffic and two for workload traffic.
+
+The VMware software versions used in new deployments of private cloud clusters in Azure VMware Solution are:
+
+| Software              | Version |
+|-----------------------|---------|
+| VMware vCenter Server | 7.0 U3o |
+| ESXi                  | 7.0 U3o |
+| vSAN                  | 7.0 U3  |
+| vSAN on-disk format   | 15      |
+| HCX                   | 4.8.2   |
+| VMware NSX            | 4.1.1   |
+
+NSX-T is the only supported version of NSX. When new clusters are added to an existing private cloud, the currently running software version is applied.
+
+### Interconnectivity in Azure
+
+The Azure VMware Solution private cloud can be accessed from both on-premises and Azure resources using the following services:
+
+* Azure ExpressRoute
+* VPN connections
+* Azure Virtual WAN
+* Azure ExpressRoute Gateway
+
+<img src='images/2025-09-22-03-39-12.png' width=650>  
+
+These services require enabling specific network address ranges and firewall ports.
+
+You can connect Azure VMware Solution through an existing ExpressRoute gateway, provided the virtual network doesn’t exceed four ExpressRoute circuits. For on-premises access, ExpressRoute Global Reach is the preferred option. If it isn’t available or doesn’t meet security or network requirements, alternate methods can be used.
+
+ExpressRoute Global Reach connects private clouds to on-premises environments. This setup requires a virtual network with an ExpressRoute circuit in your subscription.
+
+There are two connectivity options for Azure VMware Solution private clouds:
+
+* **Basic Azure-only interconnectivity**: Private cloud access is limited to a single Azure virtual network. Best for evaluations or scenarios without on-premises access needs.
+* **Full interconnectivity**: Extends basic connectivity to link on-premises environments with Azure VMware Solution private clouds.
+
+During deployment, private networks for management, provisioning, and vMotion are created. These networks support vCenter Server, NSX-T Manager, VM vMotion, and VM deployment.
+
+### Private cloud storage
+
+Azure VMware Solution uses native, all-flash VMware vSAN storage that’s fully configured and local to each cluster. All host storage is combined into a vSAN datastore, with data-at-rest encryption enabled by default.
+
+vSAN storage architecture is built on disk groups, each made up of a cache tier and a capacity tier. Depending on the host type, the cache uses NVMe or Intel drives, and capacity size varies. Every node in a vSphere cluster includes two disk groups, each with one cache disk and three capacity disks.
+
+Datastores are automatically created during private cloud deployment and are ready for immediate use.
+
+| Host Type | vSAN Cache Tier (TB, raw) | vSAN Capacity Tier (TB, raw) |
+|-----------|----------------------------|-------------------------------|
+| AV36      | 3.2 (NVMe)                 | 15.20 (SSD)                   |
+| AV36P     | 1.5 (Intel Cache)          | 19.20 (NVMe)                  |
+| AV52      | 1.5 (Intel Cache)          | 38.40 (NVMe)                  |
+| AV64      | 3.84 (NVMe)                | 15.36 (NVMe)                  |
+
+A storage policy is created on the vSphere cluster and applied to the vSAN datastore. This policy controls how VM storage objects are provisioned and allocated, ensuring the required level of service. To meet service-level agreements, 25% of datastore capacity must remain available. The appropriate failure-to-tolerate (FTT) policy must also be applied, which varies depending on cluster size.
+
+Workloads in your private cloud can also use Azure storage services. The following diagram highlights some of the storage options available with Azure VMware Solution.
+
+<img src='images/2025-09-22-03-43-21.png' width=650>  
+
+### Security and compliance
+
+Azure VMware Solution private clouds use vSphere role-based access control for managing access and security. Users and Groups from Active Directory can be assigned the CloudAdmin role through LDAP or LDAPS.
+
+Each vCenter Server includes a built-in local user called **cloudadmin**, mapped to the **CloudAdmin role**. This role differs from the full administrator role available in other VMware solutions:
+
+* The CloudAdmin user can’t add identity sources (such as LDAP or LDAPS) directly to vCenter Server. However, Run commands can be used to add identity sources and assign the CloudAdmin role to users and groups.
+* Administrators don’t have access to the vCenter administrator account. Instead, they assign Active Directory users and groups to the CloudAdmin role.
+* Users can’t access or configure infrastructure components managed by Microsoft, such as clusters, hosts, datastores, or distributed virtual switches.
+
+For storage security, Azure VMware Solution enables data-at-rest encryption for vSAN datastores by default. This encryption is managed through Key Management Service (KMS) integrated with vCenter Server. Keys are encrypted and wrapped by an Azure Key Vault master key. When a host is removed from a cluster, data on its SSDs is immediately invalidated.
+
+The following diagram shows how encryption keys are managed in Azure VMware Solution.
+
+<img src='images/2025-09-22-03-46-00.png' width=450>
+
+### Steps for deploying Azure VMware Solution
+
+The following table outlines the steps that an organization takes to get started with using Azure VMware Solution.
+
+| Milestone                  | Steps                                                                 |
+|-----------------------------|----------------------------------------------------------------------|
+| Plan                        | - Assess workloads <br> - Determine sizing <br> - Identify the host <br> - Request a quote <br> - Determine networking and connectivity |
+| Deploy                      | - Register the Microsoft.AVS resource provider <br> - Create an Azure VMware Solution private cloud <br> - Connect to Azure Virtual Network with ExpressRoute <br> - Validate the connection |
+| Connect to on-premises      | - Create an ExpressRoute authorization key in the on-premises ExpressRoute circuit <br> - Peer the private cloud to on-premises <br> - Verify on-premises network connectivity <br> - Other connectivity options available |
+| Deploy and configure VMware HCX | - Enable the HCX service add-on <br> - Download the VMware HCX Connector OVA <br> - Deploy the on-premises VMware HCX OVA (Connector) <br> - Activate the VMware HCX Connector <br> - Pair the on-premises Connector with Azure VMware Solution HCX Cloud Manager <br> - Configure interconnect (network profile, compute profile, service mesh) <br> - Validate appliance status and confirm migration is possible |
+
+## When to use Azure VMware Solution
+
+Every organization’s cloud transformation is shaped by its own requirements. Azure VMware Solution offers a fast path to cloud adoption without reformatting existing assets. You can run your VMware technology stack on Azure just as you do on-premises—no app refactoring or new skill sets required.
+
+Many organizations use Azure VMware Solution to extend the value of their VMware investments while moving toward the cloud. It allows VMware vSphere environments to run on Azure’s dedicated infrastructure.
+
+The table below outlines scenarios where Azure VMware Solution is a strong fit based on business needs and considerations.
+
+| Business need                          | Description                                                                 |
+|----------------------------------------|-----------------------------------------------------------------------------|
+| Migrate existing assets "as is"        | Replicate IT systems, apps, and workloads in Azure without changes ("lift and shift"). |
+| Reduce your datacenter footprint       | Decommission legacy infrastructure by moving resources into Azure.          |
+| Prepare for disaster recovery and business continuity | Move apps to Azure without disruption. Use VMware resources in Azure as a primary or secondary recovery site. |
+| Modernize your workloads               | Innovate at your own pace with Azure tools and services to modernize apps and datacenters. |
+
+## Summary
+
+In this module, you explored Azure VMware Solution, an Azure service that lets you deploy and extend VMware vSphere environments in the cloud.
+
+Key takeaways:
+
+**Business value of Azure VMware Solution**
+
+* Familiar VMware tools and technology
+* Native Azure integration
+* High-performance cloud infrastructure
+
+**Core components and how it works in Azure**
+
+* Microsoft-managed responsibilities
+* Private cloud and storage concepts
+* Interconnectivity within Azure
+* Security and compliance features
+
+**Use cases driving adoption**
+
+* Migrate existing assets as-is
+* Reduce datacenter footprint
+* Enable disaster recovery and business continuity
+* Modernize workloads
+
+**Pricing considerations**
+
+* Flexible billing options to match business needs
+
+Next, continue this path to learn how to deploy and migrate virtual machines to Azure VMware Solution.
