@@ -1,6 +1,4 @@
-# Lab 1: Introduction to Azure VMware Solution (AVS)
-
-
+# Lab 1-1: Introduction to Azure VMware Solution (AVS)
 
 **Module:** [Introduction to Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/intro-azure-vmware-solution/)
 
@@ -76,7 +74,7 @@ VMware vSphere clusters run on bare-metal Azure hosts and can be deployed and ma
 
 The following diagram shows how private clouds, Azure services, and on-premises environments connect within Azure.
 
-<img src='images/2025-09-22-03-20-39.png' width=650>
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-20-39.png' width=650>
 
 ### Key features
 
@@ -95,7 +93,7 @@ Azure VMware Solution lets customers migrate their VMware vSphere environments t
 
 Native Azure tools and services can monitor and manage virtual machines across environments. These same tools work with VMs in Azure VMware Solution, standard Azure VMs, and on-premises VMs.
 
-<img src='images/2025-09-22-03-24-48.png' width=500>  
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-24-48.png' width=500>  
 
 | Integration                  | Description                                                                                               |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -130,7 +128,7 @@ Azure VMware Solution offers three billing options, giving customers the flexibi
 
 In on-premises VMware vSphere environments, customers must maintain both the hardware and software needed to run the platform. With Azure VMware Solution, Microsoft takes on platform management. Here’s how responsibilities are divided between Microsoft and the customer.
 
-<img src='images/2025-09-22-03-30-55.png' width=850>
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-30-55.png' width=850>
 
 Together with VMware, Microsoft manages the life cycle of VMware software such as ESXi, vCenter Server, and vSAN. Microsoft also handles NSX appliance lifecycle management and initial network setup, including creating the Tier-0 gateway and enabling north/south routing.
 
@@ -212,7 +210,7 @@ The Azure VMware Solution private cloud can be accessed from both on-premises an
 * Azure Virtual WAN
 * Azure ExpressRoute Gateway
 
-<img src='images/2025-09-22-03-39-12.png' width=650>  
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-39-12.png' width=650>  
 
 These services require enabling specific network address ranges and firewall ports.
 
@@ -246,7 +244,7 @@ A storage policy is created on the vSphere cluster and applied to the vSAN datas
 
 Workloads in your private cloud can also use Azure storage services. The following diagram highlights some of the storage options available with Azure VMware Solution.
 
-<img src='images/2025-09-22-03-43-21.png' width=650>  
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-43-21.png' width=650>  
 
 ### Security and compliance
 
@@ -262,7 +260,7 @@ For storage security, Azure VMware Solution enables data-at-rest encryption for 
 
 The following diagram shows how encryption keys are managed in Azure VMware Solution.
 
-<img src='images/2025-09-22-03-46-00.png' width=450>
+<img src='../lab1-1/../lab1-1/images/2025-09-22-03-46-00.png' width=450>
 
 ### Steps for deploying Azure VMware Solution
 

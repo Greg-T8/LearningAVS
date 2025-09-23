@@ -17,10 +17,10 @@ With AVS, organizations can:
 
 ## Azure VMware Solution - Foundation
 
-This learning path is designed to provide a foundational understanding of Azure VMware Solution (AVS): what it is, when to use it, and how it fits into a broader cloud strategy. It equips team members with the core concepts, terminology, and business drivers behind AVS, while aligning to Microsoft’s Cloud Adoption Framework. 
+This learning path is designed to provide a foundational understanding of Azure VMware Solution (AVS): what it is, when to use it, and how it fits into a broader cloud strategy. It equips team members with the core concepts, terminology, and business drivers behind AVS, while aligning to Microsoft’s Cloud Adoption Framework.
 
-- [x] [Lab 1-1: Introduction to Azure VMware Solution (MLM)](./Labs/MicrosoftLearn/Lab1/Notes.md) (9/22/25)
-- [ ] [Lab 1-2: Introduction to Azure Migrate for server migration (MLM)](https://learn.microsoft.com/en-us/training/modules/m365-azure-migrate-introduction/)
+- [x] [Lab 1-1: Introduction to Azure VMware Solution (MLM)](./Labs/lab1-1/notes.md) (9/22/25)
+- [ ] [Lab 1-2: Introduction to Azure Migrate for server migration (MLM)](./Labs/lab1-2/notes.md)
 - [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework (MLM)](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/)
 - [ ] [Lab 1-4: Understand Azure NetApp Files essentials (MLM)](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-essentials/)
 
