@@ -4,13 +4,11 @@
 
 This is my learning space for Azure VMware Solution (AVS). I intend to use this space to document my learning journey as I quickly ramp up on AVS.
 
-This space contains notes, references, and labs that I find useful as I learn about AVS.
-
 AVS is a first-party Microsoft service that allows you to run a fully managed VMware software-defined data center (SDDC) on Azure infrastructure.
 
 With AVS, organizations can:
 
-- Save money from expensive Broadcom renewals by migrating VMware workloads to Azure.
+- Save money from expensive Broadcom renewals by migrating VMware workloads to Azure (update: per [here](https://azure.microsoft.com/en-us/updates?id=503878), Broadcom now requires customers to have an active VCF subscription)
 - Migrate VMware workloads from on-premises to Azure with minimal changes.
 - Extend their datacenter capacity on demand.
 - Integrate VMware workloads with native Azure services (storage, networking, security, monitoring, and more).
@@ -21,20 +19,18 @@ This learning path is designed to provide a foundational understanding of Azure 
 
 - [x] [Lab 1-1: Introduction to Azure VMware Solution](./Labs/lab1-1/notes.md) (9/22/25)
 - [x] [Lab 1-2: Introduction to Azure Migrate for server migration](./Labs/lab1-2/notes.md) (9/23/25)
-- [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/) (in progress) (2hrs)
-- [ ] [Lab 1-4: Understand Azure NetApp Files essentials](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-essentials/) (1hr)
+- [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/) (2hrs) - in progress
 
 ## Azure VMware Solution - Engineer
 
 This learning path is designed to equip Azure engineers with the skills needed to deploy, operate, and support Azure VMware Solution (AVS) environments. Building on the Azure VMware Solution – Foundation path, it focuses on tasks such as AVS provisioning, network integration with ExpressRoute, NSX-T configuration, and executing workload migrations using VMware HCX.
 
-- [ ] [Lab 2-1: Prepare to migrate VMWare resources to Azure by deploying Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/deploy-azure-vmware-solution/) (added 9/23/25) (1hr)
+- [ ] [Lab 2-1: Prepare to migrate VMWare resources to Azure by deploying Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/deploy-azure-vmware-solution/) (1hr) - added 9/23/25
 - [ ] [Lab 2-2: Migrate VMware vSphere resources from on-premises to Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/migrate-vmware-workloads-on-premises-azure-vmware-solution/) (1hr)
-- [ ] [Lab 2-6: Secure outbound internet connectivity for Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-vmware-solution/) (added 9/23/25) (1.5hrs)
+- [ ] [Lab 2-6: Secure outbound internet connectivity for Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-vmware-solution/) (1.5hrs) - added 9/23/25
 - [ ] [Lab 2-3: Set up Azure Migrate for server migration](https://learn.microsoft.com/en-us/training/modules/m365-azure-migrate-set-up/) (0.5hrs)
 - [ ] [Lab 2-4: Design network solutions](https://learn.microsoft.com/en-us/training/modules/design-network-solutions/) (1hr)
 - [ ] [Lab 2-5: Understand Azure NetApp Files essentials](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-essentials/) (1hr)
-- [ ] [Lab 2-7: Monitor and troubleshoot Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/monitor-troubleshoot-azure-vmware-solution/) (added 9/23/25)
 
 ## Azure VMware Solution - Architect
 
@@ -54,6 +50,5 @@ This learning path is designed to prepare architects to lead the end-to-end desi
   - [Microsoft Learn Module: Secure outbound internet connectivity for Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-vmware-solution/)
   - [Microsoft Learn Module: Using Azure NetApp Files with Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-with-vmware-solution/)
   - [Microsoft Learn Module: Run VMware resources on Azure VMware Solution](https://learn.microsoft.com/en-us/training/paths/run-vmware-workloads-azure-vmware-solution/)
-  - [Microsoft Learn Module: Monitor and troubleshoot Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/monitor-troubleshoot-azure-vmware-solution/)
 - [VMWare Course Catalog - Azure VMware Solution - Ligtning Lab](https://labs.hol.vmware.com/HOL/catalog/lab/14620)
 - [VMware Course Catalog - Azure VMware Solution Planning and Deployment](https://labs.hol.vmware.com/HOL/catalog/lab/14619)
