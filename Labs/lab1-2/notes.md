@@ -16,6 +16,7 @@ After completing this module, you will be able to:
 - [Introduction to Azure Migrate for server migration](#introduction-to-azure-migrate-for-server-migration)
 - [Understand your migration options](#understand-your-migration-options)
 - [Understand the migration process](#understand-the-migration-process)
+- [Check your knowledge](#check-your-knowledge)
 
 ## Introduction to Azure Migrate for server migration
 
@@ -31,16 +32,44 @@ For VMware to Azure migrations, there are two main options: Azure VMware Solutio
 
 **Azure Migrate** is the focus here. It helps improve compute efficiency, offers flexibility to right-size infrastructure, and reduces long-term costs by running VMs in native Azure IaaS. Azure Migrate now includes migration tools previously available only in Azure Site Recovery, fully integrated and optimized for Azure Migrate. It also supports Microsoft and partner tools for both assessment and migration. With simplified end-to-end workflows, you can centrally track and manage projects from a single hub.
 
-Videos:  
+**Videos:**
 
 * [How to run VMware in Azure - Demo Tutorial](https://learn.microsoft.com/_themes/docs.theme/master/en-us/_themes/global/video-embed-one-stream.html?id=c8378aa3-a9f8-43ad-ac25-61ec14a6fa31)
+
+  <details>
+  <summary>Screenshots</summary>
+
+  **Note:** Azure VMware Solution (AVS) is the successor to the service originally named **CloudSimple**. Microsoft acquired CloudSimple in 2019 and rebranded it as AVS.
+
+  <img src='images/2025-09-23-03-23-31.png' width=850>
+
+  <img src='images/2025-09-23-03-26-37.png' width=750>
+
+  <img src='images/2025-09-23-03-28-55.png' width=750>
+
+  Creating a virtual machine in AVS:  
+  <img src='images/2025-09-23-03-29-44.png' width=550>
+
+  </details>
+
 * [Real life migrations to Azure](https://learn.microsoft.com/_themes/docs.theme/master/en-us/_themes/global/video-embed-one-stream.html?id=4e056272-f664-409d-b27f-46a7608abb51) - includes demonstration of vMotion from on-prem VMware using HCX into Azure VMware instance
+
+  <details open>
+  <summary>Screenshots</summary>
+
+  Migrate virtual machine option in vSphere client:  
+  <img src='images/2025-09-23-03-38-06.png' width=850>
+
+  HCX (Hybrid Cloud Extension) migration to Azure:
+  <img src='images/2025-09-23-03-39-31.png' width=850>
+
+  </details>
 
 ## Understand the migration process
 
 The Azure Migrate process uses Microsoft's tools for assessment and migration
 
-<img src='images/2025-09-23-03-17-32.png' width=500> 
+<img src='images/2025-09-23-03-17-32.png' width=500>
 
 1. Configure prerequisites and verify permissions in both environments.
 2. Create an Azure Migrate project and add assessment and migration tools.
@@ -49,3 +78,7 @@ The Azure Migrate process uses Microsoft's tools for assessment and migration
 5. Replicate VMs from VMware to Azure storage.
 6. Test VMs in a test virtual network.
 7. Migrate VMs to production in a production virtual network.
+
+## Check your knowledge
+
+<img src='images/2025-09-23-03-46-28.png' width=850>
