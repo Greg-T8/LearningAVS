@@ -19,7 +19,7 @@ This learning path is designed to provide a foundational understanding of Azure 
 
 - [x] [Lab 1-1: Introduction to Azure VMware Solution](./Labs/lab1-1/notes.md) (9/22/25)
 - [x] [Lab 1-2: Introduction to Azure Migrate for server migration](./Labs/lab1-2/notes.md) (9/23/25)
-- [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/) (2hrs) - in progress
+- [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](./Labs/lab1-3/notes.md) (2hrs) - in progress
 
 ## Azure VMware Solution - Engineer
 
