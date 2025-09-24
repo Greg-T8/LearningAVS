@@ -31,6 +31,10 @@ In this module, you will:
   - [Assess your workloads for cloud migration](#assess-your-workloads-for-cloud-migration)
   - [Estimate total cost of ownership](#estimate-total-cost-of-ownership)
 - [Ready](#ready)
+  - [Define a cloud operating model](#define-a-cloud-operating-model)
+  - [Implement landing zones](#implement-landing-zones)
+  - [Develop necessary skills](#develop-necessary-skills)
+  - [Avoid antipatterns](#avoid-antipatterns)
 
 ## Introduction
 
@@ -211,3 +215,56 @@ The Ready methodology in the Cloud Adoption Framework helps guide preparation by
 * Developing required skills
 
 Together, these elements form a strong foundation for adoption. The Azure setup guide provides step-by-step instructions to organize resources, manage costs, and secure your environment before deploying solutions.
+
+### Define a cloud operating model
+
+* [Choose a cloud operating model](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model)
+* [Common operating models](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model)
+
+A cloud operating model defines how technology is managed in the cloud. Its key components include business strategy alignment, organizational structure, change management, operations management, governance and compliance, and security.
+
+This model shifts the focus from hardware to digital assets and workloads, ensuring consistent operations. To choose the right model, compare common approaches and align them with your organization’s needs.
+
+**Common operating models:**
+
+| Operations approach | Best for                                              | Responsibilities                                                                                                                             | Pros                                 | Cons                                                    |
+| ------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------- |
+| Centralized         | Startups, single-cloud estates                        | One cloud team manages every function                                                                                                        | Simpler control, uniform standards   | One team becomes a bottleneck as scale grows            |
+| Shared Management   | Mid-size or enterprise estates, hybrid, or multicloud | Platform teams build landing zones, manage shared services, and governance guardrails. Workload teams operate autonomously within guardrails | Balances standards with team agility | Requires clear responsibilities and strong coordination |
+| Decentralized       | Tech-savvy startups, innovation programs              | Each team owns every cloud task                                                                                                              | High speed and autonomy              | Weaker standardization, higher risk of security gaps    |
+
+### Implement landing zones
+
+* [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+
+<img src='images/2025-09-24-04-00-05.png' width=900>
+
+Landing zones provide a scalable, modular environment for managing the cloud. They establish a foundation for security, governance, and resource management. The implementation you choose depends on organizational needs, required customizations, and technology use. Deployment options include the Azure portal, Bicep, and Terraform.
+
+After deployment, optimize landing zone operations as you scale. Ongoing improvements help you:
+
+* Remove unnecessary costs
+* Improve application and service performance
+* Identify and address security risks
+* Scale efficiently to meet new demands
+* Stay compliant with industry standards and regulations
+* Build reliable, resilient systems
+
+### Develop necessary skills
+
+* [Environmental (technical) readiness learning paths](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/suggested-skills#environmental-technical-readiness-learning-paths)
+* [Organizational readiness learning paths](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/suggested-skills#organizational-readiness-learning-paths)
+
+Cloud adoption depends on having the right technical skills and organizational roles. Microsoft offers learning paths to help teams build required expertise. Align teams with cloud adoption functions, which may involve creating new structures or assigning new roles.
+
+### Avoid antipatterns
+
+* [Cloud readiness antipatterns](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/antipatterns/ready-antipatterns)
+
+Common antipatterns in the readiness phase can slow cloud adoption, including:
+
+* Inadequate preparation
+* Misunderstanding cloud service features
+* Limited knowledge of cloud provider operations
+
+Avoiding these pitfalls helps ensure a smoother and more successful adoption process.
