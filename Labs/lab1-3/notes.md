@@ -35,6 +35,14 @@ In this module, you will:
   - [Implement landing zones](#implement-landing-zones)
   - [Develop necessary skills](#develop-necessary-skills)
   - [Avoid antipatterns](#avoid-antipatterns)
+- [Migrate](#migrate)
+  - [Plan migration](#plan-migration)
+  - [Prepare workloads for the cloud](#prepare-workloads-for-the-cloud)
+  - [Execute migrations](#execute-migrations)
+  - [Optimize workloads after migration](#optimize-workloads-after-migration)
+  - [Decommission source workloads](#decommission-source-workloads)
+- [Modernize](#modernize)
+  - [Plan your cloud modernization](#plan-your-cloud-modernization)
 
 ## Introduction
 
@@ -268,3 +276,94 @@ Common antipatterns in the readiness phase can slow cloud adoption, including:
 * Limited knowledge of cloud provider operations
 
 Avoiding these pitfalls helps ensure a smoother and more successful adoption process.
+
+## Migrate
+
+Migrations involve planning, executing, and optimizing the move of workloads from on-premises data centers or other clouds to Azure. Following recommendations helps reduce risks, control costs, and achieve successful adoption.
+
+* [Migrate workloads](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/migrate/plan-migration)
+
+<img src='images/2025-09-24-04-12-24.png' width=500>
+
+### Plan migration
+
+Plan migration with these key steps:
+
+1. **Assess readiness and skills:** Evaluate team capabilities in infrastructure, security, and applications. Use Microsoft partners or Azure solution architects to close gaps.
+2. **Choose a data migration path:** Options include ExpressRoute for high bandwidth, VPN gateways for encrypted transfers, Azure Data Box for offline moves, or public internet for non-sensitive data.
+3. **Determine migration sequence:** Map dependencies with Azure Migrate, prioritize workloads by criticality, and schedule migrations outside peak business periods.
+4. **Select migration methods:** Use near-zero downtime for mission-critical workloads and planned downtime for those that can tolerate maintenance windows.
+5. **Define rollback plans:** Create backups, automate recovery scripts, set rollback timeframes, and test recovery in non-production.
+6. **Engage stakeholders:** Document strategies with business justifications, share rollback procedures, validate schedules with business constraints, and define success criteria.
+
+### Prepare workloads for the cloud
+
+Prepare workloads for the cloud with these steps:
+
+1. **Fix compatibility issues:** Deploy resources in test subscriptions, identify and resolve compatibility problems, replace hardcoded settings with Azure Key Vault, and remove local dependencies by adopting Azure-native services.
+2. **Validate functionality:** Test network connectivity, verify authentication flows, perform functional tests, measure performance with Azure Load Testing, and compare results to source environment baselines.
+3. **Build reusable infrastructure:** Create ARM templates or Bicep files, develop automation scripts for configuration, and set up version control workflows.
+4. **Document deployments:** Record procedures, configuration requirements, operational runbooks, and troubleshooting guides.
+
+### Execute migrations
+
+1. **Prepare stakeholders** for migration by sharing schedules with assigned responsibilities, confirming technical support availability, and running readiness reviews.
+
+2. **Implement a change freeze** by communicating freeze periods, enforcing change control procedures, and monitoring systems for unauthorized changes.
+
+3. **Finalize the production environment** by deploying infrastructure with tested templates, applying security policies, verifying Azure services, and confirming connectivity.
+
+4. **Execute cutover:**
+
+    * Near-zero downtime: set up database replication, migrate static files, pause writes for synchronization, and redirect traffic.
+    * Planned downtime: stop operations, migrate data with validation, test functionality, and redirect traffic.
+
+5. **Maintain fallback options** by keeping source infrastructure, preserving network connectivity, documenting procedures, and monitoring for issues.
+
+6. **Validate success** through performance testing, functional checks, data integrity verification, and formal stakeholder approval.
+
+7. **Support workloads during stabilization** by assigning dedicated teams, updating configuration databases, enhancing monitoring, and documenting lessons learned.
+
+### Optimize workloads after migration
+
+Optimize workloads after migration with these steps:
+
+1. **Fine-tune configurations:** Apply Azure Advisor recommendations, follow service-specific guidance, resolve security issues, and configure monitoring.
+2. **Validate critical settings:** Ensure monitoring captures telemetry, confirm cost tracking matches baselines, test backups, and validate security configurations.
+3. **Act on user feedback:** Collect input via surveys and interviews, log issues in tracking tools, assign ownership, and share improvements.
+4. **Schedule regular reviews:** Use Well-Architected Framework tools quarterly to review costs, assess performance, and document optimization actions.
+5. **Optimize hybrid and multicloud dependencies:** Monitor with Azure Arc, secure cross-environment communication, explore PaaS replacements, and plan migrations.
+6. **Share outcomes:** Track cost savings in Azure Cost Management, measure performance gains, document benefits, and present results to stakeholders.
+
+### Decommission source workloads
+
+Decommission source workloads with these steps:
+
+1. **Obtain stakeholder approval:** Secure written approval from business owners, document timelines, record decisions in centralized systems, and maintain audit trails.
+2. **Reclaim and optimize licenses:** Identify licenses eligible for Azure Hybrid Benefit, update inventories, reallocate unused licenses, and document changes for compliance.
+3. **Preserve required data:** Identify data with retention requirements, store it in Azure Blob Storage with compliant configurations, set retrieval procedures, and define lifecycle policies.
+4. **Update documentation:** Revise architecture diagrams, adjust operational procedures, update monitoring, and archive legacy documentation with deprecation notices.
+
+For detailed guidance, see *Migrate workloads to Azure* in the Cloud Adoption Framework.
+
+## Modernize
+
+Cloud modernization improves existing cloud workloads to better meet business needs. It aligns them with cloud best practices without introducing new features.
+
+Prepare your organization for cloud modernization with these steps:
+
+1. **Define modernization:** Create a shared definition focused on improving existing workloads through replatforming, refactoring, and rearchitecting. Exclude new features or complete rewrites. Communicate this definition across teams and establish shared responsibilities among development, operations, security, and architecture.
+2. **Assess readiness and skills:** Evaluate team capabilities in cloud services, DevOps/CI/CD, modern architecture patterns, and monitoring/automation. Address gaps through training, certifications, hiring, or external expertise from Microsoft or partners.
+3. **Prioritize workloads:** Rate workloads by business value (revenue impact, customer experience, compliance, dependencies) and technical risk (technical debt, outdated technology, maintenance needs, performance, scalability). Use a priority matrix to decide which workloads to modernize first.
+4. **Plan modernization:** Apply the Azure Well-Architected Framework to identify gaps and create roadmaps across reliability, security, cost optimization, operational excellence, and performance efficiency. Give workload teams decision-making authority within boundaries and ensure alignment through regular check-ins.
+
+### Plan your cloud modernization
+
+Plan cloud modernization with these steps:
+
+1. **Choose a strategy:** Select replatforming for quick wins with minimal code changes (IaaS to PaaS), refactoring to improve code structure while preserving functionality, or rearchitecting to adopt cloud-native patterns like microservices and serverless. Match strategies to component requirements, goals, timelines, and resources. Avoid over-modernization by focusing on business value.
+2. **Plan in phases:** Break workloads into manageable parts to deliver incremental value and reduce risk. Organize phases by component, complexity, or business function. Start with low-risk, high-value changes, then sequence remaining phases by value and dependencies. Define clear success criteria for each phase and adapt based on results.
+3. **Establish governance:** Integrate approval workflows with existing Change Advisory Boards or create dedicated review boards. Enforce change freezes during major deployments. Prevent scope creep by requiring evaluation and approval for new changes, while maintaining a backlog of future ideas.
+4. **Define deployment strategy:** Use in-place deployment for low-risk, reversible updates or parallel deployment for complex, high-risk changes requiring minimal downtime. Apply progressive techniques like canary releases, starting with small user groups and scaling based on monitoring.
+5. **Mitigate risks:** Create detailed rollback procedures with steps, responsible parties, and timelines. Automate rollbacks using infrastructure-as-code and blue-green deployments. Assign support teams for deployments and extend monitoring with hypercare periods.
+6. **Secure stakeholder approval:** Present tailored value propositions—efficiency for technical teams and outcomes for leaders. Document milestones and timelines, quantify value (e.g., 20–40% cost savings, 50–80% productivity gains), address risks with mitigation plans, and maintain transparent communication and feedback loops.
