@@ -45,6 +45,12 @@ In this module, you will:
   - [Plan your cloud modernization](#plan-your-cloud-modernization)
   - [Execute modernizations in the cloud](#execute-modernizations-in-the-cloud)
   - [Optimize workloads after cloud modernization](#optimize-workloads-after-cloud-modernization)
+- [Cloud-native](#cloud-native)
+  - [Planning cloud-native solutions on Azure](#planning-cloud-native-solutions-on-azure)
+  - [Build cloud-native solutions](#build-cloud-native-solutions)
+  - [Deploy cloud-native solutions](#deploy-cloud-native-solutions)
+  - [Optimize the cloud-native solutions after deployment](#optimize-the-cloud-native-solutions-after-deployment)
+- [Govern](#govern)
 
 ## Introduction
 
@@ -412,3 +418,53 @@ Optimize workloads after cloud modernization with these steps:
 4. **Establish continuous modernization:** Conduct workload reviews every few months with Well-Architected reviews or health checks. Automate optimization using Azure Policy, autoscaling rules, and cost anomaly alerts. Share results by documenting optimization patterns, creating playbooks, maintaining knowledge bases, and feeding lessons into broader cloud adoption practices.
 
 For detailed guidance, see *Modernize workloads in cloud* in the Cloud Adoption Framework.
+
+## Cloud-native
+
+* [Build cloud-native solutions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/cloud-native/plan-cloud-native-solutions)
+
+Cloud-native solutions generate business value by building new applications or adding features that leverage cloud scalability, resilience, and agility. This guidance outlines a structured approach to plan cloud-native development projects that align with business goals while minimizing delivery risks.
+
+<img src='images/2025-09-24-04-30-01.png' width=500>
+
+### Planning cloud-native solutions on Azure
+
+Planning cloud-native solutions on Azure involves these steps:
+
+1. **Define business objectives:** Set clear, measurable goals, identify constraints, and establish success criteria. Confirm stakeholder alignment to ensure shared expectations from the start.
+2. **Define requirements:** Document functional requirements tied to business goals. Capture nonfunctional needs such as reliability metrics and security baselines. Control scope by clarifying what is included and excluded in the initial release.
+3. **Plan architectures:** Use Azure Architecture Center reference designs and choose architecture styles that fit workload needs. Apply design best practices, cloud patterns, and the Well-Architected Framework pillars. Plan system integrations, select Azure services and tiers, define regional deployment strategies, and document designs with diagrams and rationale.
+4. **Plan deployment strategy:** Establish DevOps practices for automation, prepare monitoring and incident response, and set development practices for reliable deployments. Use progressive rollout starting with pilot groups. Apply change management with patterns like in-place updates for minor changes or blue-green deployments for major ones. Define post-deployment ownership and support.
+5. **Define rollback plan:** Develop detailed rollback steps to recover quickly from issues and maintain business continuity during releases.
+
+### Build cloud-native solutions
+
+1. **Develop new cloud-native applications:** Follow Well-Architected principles, use nonproduction environments that mirror production, and implement source control with CI/CD. Integrate monitoring with Azure Monitor and Application Insights from the start. Validate with functional, performance, security, and user acceptance tests.
+
+2. **Create reusable infrastructure:** Standardize repeatable infrastructure patterns for consistent, faster deployments across environments and projects.
+
+3. **Create deployment documentation:** Record deployment steps, configurations, and operational procedures to ensure reliable releases and smooth handoffs to operations.
+
+### Deploy cloud-native solutions
+
+Deploy cloud-native solutions with these steps:
+
+1. **Prepare stakeholders:** Share deployment schedules, expected impacts, and release details with all affected groups. Notify support teams in advance, set expectations for functionality during deployment, and run readiness reviews to confirm roles and access.
+2. **Execute deployments:** Use validated CI/CD pipelines with the same build artifacts and IaC templates tested in staging. Perform smoke tests for core functionality and availability. Roll out progressively, starting with small user groups and expanding based on monitoring and feedback.
+3. **Validate success:** Test critical user journeys, confirm integrations and background jobs, and review monitoring dashboards for anomalies. Check alerting systems, conduct stakeholder reviews, and declare success only after meeting acceptance criteria.
+4. **Support stabilization:** Enable enhanced monitoring with development and operations teams on call. Track metrics and feedback closely during the first 1–2 weeks. Adjust configurations as needed, log all issues, and define exit criteria for moving into normal operations.
+
+### Optimize the cloud-native solutions after deployment
+
+Optimize cloud-native solutions after deployment with these steps:
+
+1. **Fine-tune configurations:** Apply Azure Advisor recommendations weekly to improve cost, performance, reliability, and security. Use Well-Architected service guides for best practices. Resolve Microsoft Defender for Cloud findings immediately to stay compliant and secure.
+2. **Validate operational readiness:** Enable full logging and metrics in Azure Monitor, test alerts with simulated failures, and confirm dashboards provide actionable insights. Document monitoring coverage for audits and onboarding.
+3. **Monitor and optimize costs:** Set automated alerts and budgets in Azure. Apply Well-Architected cost optimization strategies across monitoring, governance, rates, usage, and components. Review resource usage regularly, decommission underutilized resources, and schedule nonproduction environments to shut down during off-hours.
+4. **Test backup and recovery:** Ensure coverage with Azure Backup, run trial restores in nonproduction, and verify recovery time objectives. Document recovery procedures step by step and run disaster recovery drills to test readiness.
+5. **Gather feedback and measure outcomes:** Use surveys and support ticket analysis to identify issues in critical workflows. Track and resolve feedback in Azure DevOps or GitHub Issues, prioritize by value and urgency, and share resolutions with stakeholders.
+6. **Continuously improve:** Conduct periodic Well-Architected reviews, adapt to changing requirements, and automate optimizations with Azure Policy, autoscaling, and cost anomaly detection. Share lessons learned and best practices across teams to advance cloud maturity.
+
+For detailed guidance, see *Build cloud-native solutions* in the Cloud Adoption Framework.
+
+## Govern
