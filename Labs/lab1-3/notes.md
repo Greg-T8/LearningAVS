@@ -43,6 +43,8 @@ In this module, you will:
   - [Decommission source workloads](#decommission-source-workloads)
 - [Modernize](#modernize)
   - [Plan your cloud modernization](#plan-your-cloud-modernization)
+  - [Execute modernizations in the cloud](#execute-modernizations-in-the-cloud)
+  - [Optimize workloads after cloud modernization](#optimize-workloads-after-cloud-modernization)
 
 ## Introduction
 
@@ -348,7 +350,11 @@ For detailed guidance, see *Migrate workloads to Azure* in the Cloud Adoption Fr
 
 ## Modernize
 
+* [Modernize workloads in cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/modernize/prepare-organization-cloud-modernization)
+
 Cloud modernization improves existing cloud workloads to better meet business needs. It aligns them with cloud best practices without introducing new features.
+
+<img src='images/2025-09-24-04-20-06.png' width=500>
 
 Prepare your organization for cloud modernization with these steps:
 
@@ -367,3 +373,42 @@ Plan cloud modernization with these steps:
 4. **Define deployment strategy:** Use in-place deployment for low-risk, reversible updates or parallel deployment for complex, high-risk changes requiring minimal downtime. Apply progressive techniques like canary releases, starting with small user groups and scaling based on monitoring.
 5. **Mitigate risks:** Create detailed rollback procedures with steps, responsible parties, and timelines. Automate rollbacks using infrastructure-as-code and blue-green deployments. Assign support teams for deployments and extend monitoring with hypercare periods.
 6. **Secure stakeholder approval:** Present tailored value propositions—efficiency for technical teams and outcomes for leaders. Document milestones and timelines, quantify value (e.g., 20–40% cost savings, 50–80% productivity gains), address risks with mitigation plans, and maintain transparent communication and feedback loops.
+
+### Execute modernizations in the cloud
+
+Execute modernizations in the cloud with these steps:
+
+1. **Prepare stakeholders:** Share deployment schedules in advance, including change freeze and go-live windows. Enforce freezes on source and dependent workloads with clear timelines. Communicate final user actions and post-deployment updates such as new URLs or authentication changes. Arrange extended support coverage with escalation procedures. Define fallback procedures with manual workarounds for critical workloads.
+
+2. **Develop in nonproduction:** Follow Well-Architected Framework principles, apply Azure Advisor recommendations, and validate designs through reviews. Build nonproduction environments that mirror production at smaller scales. Implement incremental changes using Git, CI/CD pipelines, and infrastructure-as-code scripts.
+
+3. **Validate changes:** Run unit, integration, and regression tests via CI pipelines. Perform end-to-end testing with manual QA or automated UI tests. Conduct user acceptance testing with stakeholders. Validate performance with Azure Load Testing at 150% expected load. Complete security and compliance checks with vulnerability scans and Microsoft Defender for Cloud. Resolve all critical issues before release.
+
+    * **Build reusable infrastructure:** Create infrastructure-as-code templates for consistency and to reduce manual errors across deployments.
+    * **Document deployment:** Record procedures, rollback steps, and validation processes to ensure reliable, repeatable execution.
+
+4. **Deploy modernization:**
+
+    * **In-place:** Schedule maintenance windows, use CI/CD pipelines, and apply progressive rollouts with canary deployments (e.g., App Service slots or Container Apps traffic splitting). Scale traffic gradually to full capacity while monitoring metrics.
+    * **Parallel:** Use IaC templates for new environments, enable continuous database replication, migrate files with Azure tools, perform final synchronization with zero loss, and shift traffic gradually with weighted routing before final cutover via DNS or load balancer. Keep the old environment as hot standby for 24–72 hours.
+
+5. **Validate success:** Monitor access, performance, and error rates post-deployment. Announce success only after confirmation from workload owners, testers, and stakeholders that requirements are met.
+
+6. **Support stabilization:** Provide enhanced IT support with shorter SLAs for the first days or weeks. Update runbooks, monitoring, and documentation. Train operations teams on new procedures, refresh asset inventories, and retire legacy components.
+
+### Optimize workloads after cloud modernization
+
+* [Azure Well-Architected Framework](https://learn.microsoft.com/en-us/azure/well-architected/what-is-well-architected-framework)
+* [Azure Well-Architected Review tool](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/)
+
+Optimize workloads after cloud modernization with these steps:
+
+1. **Optimize configurations:** Apply Azure Advisor recommendations weekly, prioritizing critical fixes. Adjust service-specific settings using Well-Architected Framework guides. Address security gaps immediately with Microsoft Defender for Cloud, resolving high-severity issues within 48 hours and enabling continuous assessment.
+
+2. **Validate operational readiness:** Ensure Azure Monitor captures all logs, metrics, and traces. Test alerts with chaos testing and update dashboards for the new architecture. Use Microsoft Cost Management to track spending, set alerts, and review utilization weekly for rightsizing. Test backup and recovery with Azure Backup or database point-in-time restore, document RTO/RPO, and confirm all critical data is covered.
+
+3. **Gather feedback and measure outcomes:** Collect structured feedback via surveys, forms, and ticket analysis. Run retrospectives for internal teams. Track issues in Azure DevOps or GitHub Issues, categorize them by severity and business value, assign owners, and review progress monthly. Compare outcomes against goals, report ROI, and communicate results to stakeholders.
+
+4. **Establish continuous modernization:** Conduct workload reviews every few months with Well-Architected reviews or health checks. Automate optimization using Azure Policy, autoscaling rules, and cost anomaly alerts. Share results by documenting optimization patterns, creating playbooks, maintaining knowledge bases, and feeding lessons into broader cloud adoption practices.
+
+For detailed guidance, see *Modernize workloads in cloud* in the Cloud Adoption Framework.
