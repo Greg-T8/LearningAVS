@@ -24,6 +24,13 @@ In this module, you will:
   - [Prepare your organization](#prepare-your-organization)
   - [Inform your strategy](#inform-your-strategy)
 - [Plan](#plan)
+  - [Prepare your organization for the cloud](#prepare-your-organization-for-the-cloud)
+  - [Prepare your people for the cloud](#prepare-your-people-for-the-cloud)
+  - [Discover existing workload inventory](#discover-existing-workload-inventory)
+  - [Select migration strategies](#select-migration-strategies)
+  - [Assess your workloads for cloud migration](#assess-your-workloads-for-cloud-migration)
+  - [Estimate total cost of ownership](#estimate-total-cost-of-ownership)
+- [Ready](#ready)
 
 ## Introduction
 
@@ -115,3 +122,92 @@ After completing the first four steps, consider the following factors to refine 
 **Sustainability:** Incorporate sustainability into your strategy to improve operations and strengthen your organization’s reputation.
 
 ## Plan
+
+* [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud)
+
+Successful cloud adoption goes beyond technical readiness. It requires a plan that turns your strategy into clear, actionable steps tailored to your goals.
+
+<img src='images/2025-09-24-03-52-15.png' width=650>
+
+### Prepare your organization for the cloud
+
+Organizations must align their structure and processes with cloud adoption goals to deploy, manage, and optimize resources while meeting business objectives.
+
+1. **Map your journey based on organization type.** Startups should focus on cloud-native solutions using the CAF Plan, Ready, and Cloud-native development phases. Enterprises should assess their IT estate and follow the full CAF Plan plus Ready, Migrate, and Modernize phases.
+
+2. **Select a management model that matches your structure.** Small organizations benefit from centralized operations for consistent policy enforcement. Mid-size enterprises should use shared management, with platform teams handling landing zones and workload teams managing operations. Skilled teams can adopt decentralized operations for full ownership.
+
+3. **Plan responsibilities across governance, security, and management.** Governance teams should assess risks and set policies. Security must be integrated into every stage of the lifecycle. Define operational processes that align with business goals. Create an AI strategy and establish teams to support adoption.
+
+4. **Document responsibilities with clear ownership.** Map governance, security, and operations roles with assigned owners. Define partner contributions and communicate all responsibilities to stakeholders. Review and update ownership as your environment evolves.
+
+### Prepare your people for the cloud
+
+Teams need the right skills to adopt and run cloud services effectively, reducing risks and speeding up value delivery.
+
+1. **Identify required skills for Azure adoption.** Teams should know governance, security, identity, networking, and management basics. Azure environment managers need RAMP skills (Ready, Administer, Monitor, Protect). Cloud-native development teams require expertise in platform engineering, containerization, microservices, and AI development.
+
+2. **Close skill gaps with structured training and expert support.** Use Microsoft Learn, personalized training paths, and credentials like Microsoft Applied Skills and certifications. Leverage Microsoft specialists or trusted partners for workshops, architectural reviews, and hands-on guidance.
+
+3. **Maintain cloud skills with continuous learning programs.** Create Azure Dev/Test sandboxes, dedicate weekly time for Microsoft Learn modules, build recognition systems, join Azure community events, and keep curated resources up to date.
+
+Startups can move directly to estimating total cost of ownership. Organizations with existing workloads should begin by discovering their current inventory.
+
+### Discover existing workload inventory
+
+Organizations must understand their application portfolio before planning cloud adoption. This forms the basis for migration planning and business case development.
+
+1. **Discover workload inventory through structured documentation.** Define workload boundaries and use automated tools like Azure Migrate. When automation cannot access certain systems, document assets manually and include all components across environments.
+
+2. **Prioritize workloads by business value and migration feasibility.** Assess criticality, cloud readiness, dependencies, and strategic alignment. Build a prioritized migration backlog that balances business impact with technical feasibility.
+
+3. **Collect business details for each workload to guide decisions.** Document ownership, function, criticality, data sensitivity, compliance needs, operational constraints, and timelines. Use this information to shape migration strategies and maintain business alignment.
+
+### Select migration strategies
+
+Migration strategy selection defines the approach, timeline, and resources for each workload. It must align with business drivers and technical constraints.
+
+1. **Identify business drivers to set migration priorities.** Establish high-level goals, perform a gap analysis, and determine the drivers creating urgency for change.
+
+2. **Match drivers to migration strategies.** Options include Retire for redundant workloads, Rehost for minimal disruption, Replatform for PaaS adoption, Refactor for code optimization, Rearchitect for cloud-native capabilities, Replace with SaaS alternatives, Rebuild for full redevelopment, or Retain for stable workloads.
+
+3. **Validate strategies with selection criteria.** Consider workload stability, Azure compatibility, team skills, modernization timelines, technical debt, architectural limits, and operational requirements.
+
+4. **Decide when to modernize based on resources.** Weigh team skills, time, compatibility needs, and funding to determine whether modernization should occur during migration.
+
+5. **Maintain stakeholder alignment with a communication plan.** Define success metrics, document decisions, coordinate with strategy teams, and schedule review cycles to update strategies as needs change.
+
+### Assess your workloads for cloud migration
+
+Workload assessment identifies technical needs, dependencies, and risks for cloud migration. It guides architecture choices and migration planning.
+
+1. **Evaluate workload architecture to understand structure and dependencies.** Use tools like Azure Migrate for automated discovery, confirm results with subject matter experts, and document diagrams and component lists.
+
+2. **Review application code to find compatibility and modernization opportunities.** Use tools like AppCAT for .NET and Java applications. Check framework and SDK compatibility with Azure, and avoid unnecessary framework changes unless justified by business needs.
+
+3. **Assess databases to capture data architecture and migration requirements.** Identify all databases, including engine types and versions. Map dependencies across applications and services, and decide whether databases should be migrated as shared instances or split by workload.
+
+4. **Maintain a risk register to track migration risks.** Document technical, operational, and organizational risks, and assign mitigation strategies, owners, and timelines for resolution.
+
+### Estimate total cost of ownership
+
+Cost estimation builds the financial foundation for cloud adoption, supporting budget planning, investment decisions, and ongoing optimization.
+
+1. **Plan Azure architecture around business and technical needs.** Document constraints and compliance requirements. Design landing zone and workload architectures by selecting the right Azure services, regions, and configurations.
+
+2. **Estimate costs using planned architecture and usage patterns.** Apply the Azure Pricing Calculator with historical or projected data. Include operational costs such as training and process changes. Reassess estimates if projections exceed budget by identifying high-cost elements and adjusting architecture. Validate assumptions with test deployments and set a cost baseline.
+
+## Ready
+
+* [Prepare for cloud adoption](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/)
+* [Azure setup guide](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-setup-guide/identity)
+
+The Ready methodology in the Cloud Adoption Framework helps guide preparation by focusing on:
+
+* Setting up your Azure environment
+* Defining a cloud operating model
+* Implementing landing zones
+* Considering operational aspects
+* Developing required skills
+
+Together, these elements form a strong foundation for adoption. The Azure setup guide provides step-by-step instructions to organize resources, manage costs, and secure your environment before deploying solutions.
