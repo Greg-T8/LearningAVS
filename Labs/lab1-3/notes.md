@@ -51,6 +51,12 @@ In this module, you will:
   - [Deploy cloud-native solutions](#deploy-cloud-native-solutions)
   - [Optimize the cloud-native solutions after deployment](#optimize-the-cloud-native-solutions-after-deployment)
 - [Govern](#govern)
+  - [Build a team](#build-a-team)
+  - [Assess cloud risks](#assess-cloud-risks)
+  - [Document policies](#document-policies)
+  - [Enforce policies](#enforce-policies)
+  - [Monitor cloud governance](#monitor-cloud-governance)
+- [Manage](#manage)
 
 ## Introduction
 
@@ -468,3 +474,78 @@ Optimize cloud-native solutions after deployment with these steps:
 For detailed guidance, see *Build cloud-native solutions* in the Cloud Adoption Framework.
 
 ## Govern
+
+* [Cloud Adoption Framework - Govern](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/build-cloud-governance-team)
+
+<img src='images/2025-09-25-03-03-37.png' width=700>
+
+The Govern methodology helps you maintain consistent control of your environment and manage real risks. It offers a structured approach for establishing and improving governance in Azure. The methodology is built around five steps.
+
+### Build a team
+
+[Build a cloud governance team](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/build-cloud-governance-team)
+
+Choose a small, diverse team to enable faster decisions and bring in different perspectives. Clearly define their roles, authority, and scope. Make sure your organization backs the cloud governance team so it can enforce key security policies.
+
+**RACI Matrix for Cloud Governance Team Roles:**
+
+| Task                                   | Cloud governance team | Executive sponsor | Cloud platform team(s) | Workload teams |
+| -------------------------------------- | --------------------- | ----------------- | ---------------------- | -------------- |
+| Engage stakeholders                    | R, A                  | I                 | C                      | C              |
+| Assess cloud risks                     | A                     | I                 | R                      | R              |
+| Develop and update governance policies | R, A                  | I                 | C                      | C              |
+| Report on cloud governance progress    | R, A                  | I                 | C                      | C              |
+| Plan a cloud architecture              | A                     | I                 | R                      | R              |
+| Enforce governance policies            | A, C                  | I                 | R                      | R              |
+| Monitor compliance                     | A, C                  | I                 | R                      | R              |
+
+### Assess cloud risks
+
+* [Assess cloud risks](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/assess-cloud-risks)
+* [Example risk list](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/assess-cloud-risks#example-risk-list)
+
+Before creating or updating policies, assess cloud risks to guide their development.
+
+* Start by identifying and cataloging risks. Use Azure tools to list assets and uncover potential issues.
+
+* Analyze each risk and assign a qualitative or quantitative value. Rank them by severity.
+
+* Evaluate the impact of each risk, such as downtime or cost.
+
+* Document risks and communicate them to the relevant stakeholders.
+
+* Review risks regularly and after significant events to keep the information current and accurate.
+
+### Document policies
+
+Once you identify cloud-related business risks, document or update policies to mitigate them. Strong governance policies form the foundation of a healthy cloud governance strategy.
+
+These policies define the requirements, standards, and goals that IT staff and automated systems must follow. Each policy statement provides guidance to address specific risks identified in your risk analysis.
+
+Establish a clear process for creating, maintaining, and updating policies. Store them in a centralized repository to ensure everyone who must follow them has access.
+
+### Enforce policies
+
+[Enforce cloud governance policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/enforce-cloud-governance-policies)
+
+To enforce cloud governance, put controls and procedures in place to ensure cloud use aligns with governance policies. Start by automating compliance for a small set of policies, then expand gradually.
+
+For a smooth transition, take these steps:
+
+* Delegate governance responsibilities
+* Use an inheritance model for policies
+* Apply tagging and naming conventions to resources within that model
+* Implement a monitor-first approach
+
+### Monitor cloud governance
+
+* [Monitor cloud compliance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/monitor-cloud-governance)
+* [Azure governance workbook](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.costmanagement/governance-workbook)
+
+Once policies are in place and processes align with them, monitor cloud governance to detect compliance gaps and address them.
+
+Set up alerts to notify teams or individuals of policy deviations. Define clear thresholds that trigger these alerts.
+
+Create a remediation plan to resolve violations quickly, giving priority to high-risk issues. Update governance policies and enforcement methods as needed to prevent future problems.
+
+## Manage
