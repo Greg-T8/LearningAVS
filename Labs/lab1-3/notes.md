@@ -2,7 +2,8 @@
 
 **Module:** [Introduction to the Microsoft Cloud Adoption Framework](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/)
 
-[Microsoft Cloud Adoption Framework for Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview)
+* [Microsoft Cloud Adoption Framework for Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview)
+* [Modern application platform - Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/innovate)
 
 This module introduces the Cloud Adoption Framework, a collection of documentation, guidance, best practices, and tools designed to align business, people, and technology strategies.
 
@@ -57,6 +58,16 @@ In this module, you will:
   - [Enforce policies](#enforce-policies)
   - [Monitor cloud governance](#monitor-cloud-governance)
 - [Manage](#manage)
+  - [Ready your Azure cloud operations](#ready-your-azure-cloud-operations)
+  - [Administer your Azure cloud estate](#administer-your-azure-cloud-estate)
+  - [Monitor your Azure cloud estate](#monitor-your-azure-cloud-estate)
+  - [Protect your cloud estate](#protect-your-cloud-estate)
+- [Secure](#secure)
+  - [Modernize security posture](#modernize-security-posture)
+  - [Take advantage of security guidance](#take-advantage-of-security-guidance)
+  - [Use the CIA Triad model](#use-the-cia-triad-model)
+  - [Assign roles](#assign-roles)
+- [Module Assessment](#module-assessment)
 
 ## Introduction
 
@@ -549,3 +560,153 @@ Set up alerts to notify teams or individuals of policy deviations. Define clear 
 Create a remediation plan to resolve violations quickly, giving priority to high-risk issues. Update governance policies and enforcement methods as needed to prevent future problems.
 
 ## Manage
+
+[Ready your Azure cloud operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations)
+
+Cloud management enables effective operations in your Azure environment. Success depends on well-defined responsibilities and processes across all management areas.
+
+<img src='images/2025-09-25-03-19-54.png' width=700>
+
+### Ready your Azure cloud operations
+
+Prepare your Azure cloud operations by taking these steps:
+
+1. **Identify management responsibilities.** Cloud management covers compliance, security, resource management, deployment, development, monitoring, cost, reliability, and performance. Separate central responsibilities for the full Azure estate from workload-specific responsibilities for individual apps.
+
+2. **Establish operations teams.** Use centralized management for smaller organizations or shared management for varied workloads. Create dedicated platform teams and specialized workload teams, and assign clear ownership for each responsibility.
+
+3. **Document operational procedures.** Standardize processes for change management, deployments, and disaster recovery. Write step-by-step guides for daily tasks and Azure scenarios. Store runbooks in a central repository for quick access during incidents.
+
+    **Change management process based on risk level:**
+
+    | Risk level | Downtime allowance     | Workload criticality                                                                 | Approval process                                                                                     | Example changes                                                   |
+    | ---------- | ---------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+    | High       | No downtime allowed    | Affects mission-critical systems needing continuous availability with zero downtime. | Multiple senior engineer reviews, automated pipeline alerts, progressive exposure model, monitoring. | Critical infrastructure updates                                   |
+    | Medium     | Short downtime allowed | Affects important systems with limited tolerance for downtime.                       | Automated pipeline flags the change. Quick engineer review if monitoring raises an alert.            | Noncritical system updates, feature enhancements in short windows |
+    | Low        | Ample downtime allowed | Affects noncritical systems where extended downtime is acceptable.                   | Fully automated deployment via CI/CD with predeployment tests and monitoring.                        | Routine updates, minor policy updates                             |
+
+
+1. **Manage daily operations.** Provide 24/7 support with global teams or on-call rotations backed by automated alerts. Automate repetitive tasks with Azure tools to reduce errors and free teams for strategic work.
+
+2. **Improve continuously.** Hold weekly reviews of metrics, incidents, changes, and risks. Tackle resource sprawl and technical debt while building skills through Microsoft certifications and Azure training resources.
+
+### Administer your Azure cloud estate
+
+Administer your Azure cloud estate with these practices:
+
+1. **Define administrative scope.** Base responsibilities on your deployment model (IaaS, PaaS, SaaS, on-premises). Focus on areas you control, such as change management, security, and compliance.
+
+2. **Control changes.** Use formal change requests in ticketing tools, assess risks with approval workflows, and standardize deployments. Block unauthorized changes with Change Analysis, Azure Policy, and Bicep deployment stacks.
+
+3. **Secure your environment.** Manage identity with Microsoft Entra ID, apply RBAC with least privilege, and enforce secure configurations through infrastructure as code. Require multifactor authentication and Conditional Access.
+
+4. **Maintain compliance.** Link governance policies to operations with Azure Policy definitions aligned to standards like ISO 27001 and NIST SP 800-53.
+
+5. **Govern data.** Classify data with Microsoft Purview, manage residency through regional choices, and isolate workloads using management groups. Apply access controls and enable deletion protection.
+
+6. **Control costs.** Use Microsoft Cost Management to track spending by workload and centrally. Share billing visibility with teams and apply cost-optimization practices.
+
+7. **Manage code and runtime.** Follow the Well-Architected Framework's Operational Excellence checklist for code management, testing, and deployments.
+
+8. **Manage resources.** Restrict portal deployments to nonproduction, use infrastructure as code with Bicep or Terraform, and implement CI/CD pipelines. Prevent configuration drift and resource sprawl through governance.
+
+9. **Handle relocations.** Assess drivers such as compliance or user proximity, evaluate downtime risks, calculate costs, and follow Azure relocation guidance when needed.
+
+10. **Maintain operating systems.** Automate VM maintenance, apply updates with Azure Update Management, and monitor via Change Tracking and Machine Configuration services.
+
+### Monitor your Azure cloud estate
+
+Monitor your Azure cloud estate by following these steps:
+
+1. **Define monitoring scope.** Set responsibilities based on deployment models, focusing on service health, security, compliance, cost, and data.
+
+2. **Plan monitoring strategy.** Decide between centralized or shared management. Inventory resources with Azure Resource Graph, specify data needs, define alert categories, and test continuously.
+
+3. **Design monitoring solution.** Use Azure Monitor as the central hub and Azure Arc for hybrid environments. Centralize data storage, enforce automation with Azure Policy, and review costs regularly.
+
+4. **Configure comprehensive monitoring.** Track service health, secure identities with Microsoft Entra and Defender, check compliance through Azure Policy, manage costs with Cost Management, and monitor app performance using Application Insights.
+
+5. **Set up alerting.** Define thresholds in Azure Monitor with dynamic options, assign severity levels, and route alerts through action groups. Deliver notifications via email, SMS, or ITSM integration.
+
+6. **Create visualizations.** Build detailed dashboards in Azure Monitor workbooks for analysis and portal dashboards for summaries. Provide tailored views for technical teams and leadership.
+
+### Protect your cloud estate
+
+Protect your cloud estate with these practices:
+
+1. **Ensure reliability.** Use redundancy and recovery strategies based on workload priority. Define uptime SLOs and recovery objectives aligned with business needs.
+
+2. **Protect data.** Configure replication and backups to meet RTO and RPO goals. Apply synchronous replication across zones and cross-region replication for critical workloads.
+
+3. **Build resilient applications.** Design apps that self-heal, manage failures gracefully, and recover automatically from transient issues.
+
+4. **Deploy redundant infrastructure.** Distribute workloads across multiple availability zones and regions as needed. Calculate composite SLAs and apply load balancing.
+
+5. **Plan business continuity.** Develop and test recovery procedures. Detect failures within one minute, respond with predefined actions, and review incidents for improvements.
+
+6. **Operate security.** Standardize tools, enforce environment baselines, apply encryption and access controls, and assign clear security ownership.
+
+7. **Handle security incidents.** Create and test response plans with defined roles. Use Microsoft Sentinel for monitoring, trigger responses immediately, and analyze incidents to improve.
+
+## Secure
+
+[Secure overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/secure/overview)
+
+The Secure methodology helps strengthen your security posture and applies across all phases of the Cloud Adoption Framework. Security should be built into every stage.
+
+<img src='images/2025-09-25-03-25-16.png' width=800>
+
+All recommendations follow Zero Trust principles: assume compromise, enforce least privilege, and require explicit verification of trust.
+
+### Modernize security posture
+
+[Zero Trust adoption framework](https://learn.microsoft.com/en-us/security/zero-trust/adopt/zero-trust-adoption-overview)
+
+Security posture modernization is the ongoing process of improving defenses, detections, and resilience. Static controls weaken quickly against evolving attacks, so modernization should align with the Microsoft Zero Trust adoption framework and include Zero Trust practices in each phase.
+
+Incorporate identity hardening, segmentation, just-in-time and least-privilege access, tuned threat detection, data protection, and baseline automation into landing zones and operations.
+
+Plan modernization sprints around measurable risk reduction, such as exposed privileges, insecure configurations, or unmonitored assets. Automate validation with policy, infrastructure as code, continuous compliance scans, and secure score tracking in Microsoft Defender for Cloud.
+
+### Take advantage of security guidance
+
+The Cloud Adoption Framework Secure guidance is part of a broader set of Microsoft security resources that help teams understand and fulfill their security responsibilities. The full set includes:
+
+* **[Cloud Adoption Framework Secure methodology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/secure/overview)**: Guidance for teams managing the infrastructure that supports workload development and operations on Azure.
+* **[Azure Well-Architected Framework security guidance](https://learn.microsoft.com/en-us/azure/well-architected/security/)**: Best practices for workload owners to apply security in application development, DevOps, and DevSecOps. Microsoft also provides guidance on integrating security practices into the software development lifecycle.
+* **[Microsoft cloud security benchmark](https://learn.microsoft.com/en-us/security/benchmark/azure/)**: Best practices and security baselines to ensure strong cloud security, with recommended configurations for Azure services.
+* **[Zero Trust guidance](https://learn.microsoft.com/en-us/security/zero-trust/)**: Technical guidance for security teams to support Zero Trust modernization initiatives.
+
+Throughout your cloud adoption journey, seek opportunities to strengthen your security posture with modernization, incident preparation, and response. Strong preparation and operational practices enable faster detection and containment of threats, reducing the impact of incidents.
+
+### Use the CIA Triad model
+
+The CIA Triad is a core security model built on three principles: confidentiality, integrity, and availability.
+
+**Confidentiality** ensures only authorized users can access sensitive data, using measures like encryption and access controls.
+
+**Integrity** preserves data accuracy and completeness by preventing unauthorized changes, keeping information trustworthy.
+
+**Availability** ensures data and resources remain accessible to authorized users when needed, with systems maintained to reduce downtime.
+
+Applying the CIA Triad supports:
+
+* **Data protection**: Safeguards sensitive data, ensuring privacy and regulatory compliance.
+* **Business continuity**: Maintains data integrity and availability to prevent downtime.
+* **Customer trust**: Demonstrates a strong commitment to security, building confidence among customers and stakeholders.
+
+### Assign roles
+
+[Security teams, roles, and functions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/secure/teams-roles)
+
+Assign security roles to ensure your team can perform security functions throughout the cloud lifecycle, from development to continuous improvement.
+
+Start by mapping current roles and their responsibilities. Identify gaps, then evaluate whether your organization can and should invest in filling them. Ensure every team member understands their security role and how it connects with others.
+
+Document cross-team security processes and define a shared responsibility model, similar to RACI, to clarify decision-making and collaboration. This model shows who is responsible, accountable, consulted, and informed for specific tasks and outcomes.
+
+Continuously strengthen your security posture to keep pace with evolving threats. Use retrospectives and monitoring to find improvement opportunities, and provide ongoing training so teams stay current with emerging risks and technologies.
+
+## Module Assessment
+
+<img src='images/2025-09-25-03-45-05.png' width=900>
