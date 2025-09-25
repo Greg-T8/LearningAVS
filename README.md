@@ -17,9 +17,9 @@ With AVS, organizations can:
 
 This learning path is designed to provide a foundational understanding of Azure VMware Solution (AVS): what it is, when to use it, and how it fits into a broader cloud strategy. It equips team members with the core concepts, terminology, and business drivers behind AVS, while aligning to Microsoft’s Cloud Adoption Framework.
 
-- [x] [Lab 1-1: Introduction to Azure VMware Solution](./Labs/lab1-1/notes.md) (9/22/25)
-- [x] [Lab 1-2: Introduction to Azure Migrate for server migration](./Labs/lab1-2/notes.md) (9/23/25)
-- [ ] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](./Labs/lab1-3/notes.md) (2hrs) - in progress
+- [x] [Lab 1-1: Introduction to Azure VMware Solution](./Labs/lab1-1/notes.md) - completed 9/22/25
+- [x] [Lab 1-2: Introduction to Azure Migrate for server migration](./Labs/lab1-2/notes.md) (1hr) - completed 9/23/25
+- [x] [Lab 1-3: Introduction to the Microsoft Cloud Adoption Framework](./Labs/lab1-3/notes.md) (2hrs) - completed 9/25/25
 
 ## Azure VMware Solution - Engineer
 
