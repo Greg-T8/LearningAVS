@@ -4,6 +4,7 @@
 
 * [Microsoft Cloud Adoption Framework for Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview)
 * [Modern application platform - Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/innovate)
+* [AI adoption - Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/ai/)
 
 This module introduces the Cloud Adoption Framework, a collection of documentation, guidance, best practices, and tools designed to align business, people, and technology strategies.
 
@@ -68,6 +69,7 @@ In this module, you will:
   - [Use the CIA Triad model](#use-the-cia-triad-model)
   - [Assign roles](#assign-roles)
 - [Module Assessment](#module-assessment)
+- [Summary](#summary)
 
 ## Introduction
 
@@ -710,3 +712,5 @@ Continuously strengthen your security posture to keep pace with evolving threats
 ## Module Assessment
 
 <img src='images/2025-09-25-03-45-05.png' width=900>
+
+## Summary
