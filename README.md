@@ -8,7 +8,7 @@ AVS is a first-party Microsoft service that allows you to run a fully managed VM
 
 With AVS, organizations can:
 
-- Save money from expensive Broadcom renewals by migrating VMware workloads to Azure (update: per [here](https://azure.microsoft.com/en-us/updates?id=503878), Broadcom now requires customers to have an active VCF subscription)
+- Save money from expensive Broadcom renewals by migrating VMware workloads to Azure (update: per [Microsoft Azure Update](https://azure.microsoft.com/en-us/updates?id=503878), Broadcom now requires customers to have an active VCF subscription)
 - Migrate VMware workloads from on-premises to Azure with minimal changes.
 - Extend their datacenter capacity on demand.
 - Integrate VMware workloads with native Azure services (storage, networking, security, monitoring, and more).

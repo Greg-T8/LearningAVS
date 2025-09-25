@@ -18,58 +18,57 @@ In this module, you will:
 <!-- omit in toc -->
 ## Contents
 
-- [Introduction](#introduction)
-- [Strategy](#strategy)
-  - [Assess your strategy](#assess-your-strategy)
-  - [Determine your motivations, mission, and objectives](#determine-your-motivations-mission-and-objectives)
-  - [Define your team](#define-your-team)
-  - [Prepare your organization](#prepare-your-organization)
-  - [Inform your strategy](#inform-your-strategy)
-- [Plan](#plan)
-  - [Prepare your organization for the cloud](#prepare-your-organization-for-the-cloud)
-  - [Prepare your people for the cloud](#prepare-your-people-for-the-cloud)
-  - [Discover existing workload inventory](#discover-existing-workload-inventory)
-  - [Select migration strategies](#select-migration-strategies)
-  - [Assess your workloads for cloud migration](#assess-your-workloads-for-cloud-migration)
-  - [Estimate total cost of ownership](#estimate-total-cost-of-ownership)
-- [Ready](#ready)
-  - [Define a cloud operating model](#define-a-cloud-operating-model)
-  - [Implement landing zones](#implement-landing-zones)
-  - [Develop necessary skills](#develop-necessary-skills)
-  - [Avoid antipatterns](#avoid-antipatterns)
-- [Migrate](#migrate)
-  - [Plan migration](#plan-migration)
-  - [Prepare workloads for the cloud](#prepare-workloads-for-the-cloud)
-  - [Execute migrations](#execute-migrations)
-  - [Optimize workloads after migration](#optimize-workloads-after-migration)
-  - [Decommission source workloads](#decommission-source-workloads)
-- [Modernize](#modernize)
-  - [Plan your cloud modernization](#plan-your-cloud-modernization)
-  - [Execute modernizations in the cloud](#execute-modernizations-in-the-cloud)
-  - [Optimize workloads after cloud modernization](#optimize-workloads-after-cloud-modernization)
-- [Cloud-native](#cloud-native)
-  - [Planning cloud-native solutions on Azure](#planning-cloud-native-solutions-on-azure)
-  - [Build cloud-native solutions](#build-cloud-native-solutions)
-  - [Deploy cloud-native solutions](#deploy-cloud-native-solutions)
-  - [Optimize the cloud-native solutions after deployment](#optimize-the-cloud-native-solutions-after-deployment)
-- [Govern](#govern)
-  - [Build a team](#build-a-team)
-  - [Assess cloud risks](#assess-cloud-risks)
-  - [Document policies](#document-policies)
-  - [Enforce policies](#enforce-policies)
-  - [Monitor cloud governance](#monitor-cloud-governance)
-- [Manage](#manage)
-  - [Ready your Azure cloud operations](#ready-your-azure-cloud-operations)
-  - [Administer your Azure cloud estate](#administer-your-azure-cloud-estate)
-  - [Monitor your Azure cloud estate](#monitor-your-azure-cloud-estate)
-  - [Protect your cloud estate](#protect-your-cloud-estate)
-- [Secure](#secure)
-  - [Modernize security posture](#modernize-security-posture)
-  - [Take advantage of security guidance](#take-advantage-of-security-guidance)
-  - [Use the CIA Triad model](#use-the-cia-triad-model)
-  - [Assign roles](#assign-roles)
-- [Module Assessment](#module-assessment)
-- [Summary](#summary)
+* [Introduction](#introduction)
+* [Strategy](#strategy)
+  * [Assess your strategy](#assess-your-strategy)
+  * [Determine your motivations, mission, and objectives](#determine-your-motivations-mission-and-objectives)
+  * [Define your team](#define-your-team)
+  * [Prepare your organization](#prepare-your-organization)
+  * [Inform your strategy](#inform-your-strategy)
+* [Plan](#plan)
+  * [Prepare your organization for the cloud](#prepare-your-organization-for-the-cloud)
+  * [Prepare your people for the cloud](#prepare-your-people-for-the-cloud)
+  * [Discover existing workload inventory](#discover-existing-workload-inventory)
+  * [Select migration strategies](#select-migration-strategies)
+  * [Assess your workloads for cloud migration](#assess-your-workloads-for-cloud-migration)
+  * [Estimate total cost of ownership](#estimate-total-cost-of-ownership)
+* [Ready](#ready)
+  * [Define a cloud operating model](#define-a-cloud-operating-model)
+  * [Implement landing zones](#implement-landing-zones)
+  * [Develop necessary skills](#develop-necessary-skills)
+  * [Avoid antipatterns](#avoid-antipatterns)
+* [Migrate](#migrate)
+  * [Plan migration](#plan-migration)
+  * [Prepare workloads for the cloud](#prepare-workloads-for-the-cloud)
+  * [Execute migrations](#execute-migrations)
+  * [Optimize workloads after migration](#optimize-workloads-after-migration)
+  * [Decommission source workloads](#decommission-source-workloads)
+* [Modernize](#modernize)
+  * [Plan your cloud modernization](#plan-your-cloud-modernization)
+  * [Execute modernizations in the cloud](#execute-modernizations-in-the-cloud)
+  * [Optimize workloads after cloud modernization](#optimize-workloads-after-cloud-modernization)
+* [Cloud-native](#cloud-native)
+  * [Planning cloud-native solutions on Azure](#planning-cloud-native-solutions-on-azure)
+  * [Build cloud-native solutions](#build-cloud-native-solutions)
+  * [Deploy cloud-native solutions](#deploy-cloud-native-solutions)
+  * [Optimize the cloud-native solutions after deployment](#optimize-the-cloud-native-solutions-after-deployment)
+* [Govern](#govern)
+  * [Build a team](#build-a-team)
+  * [Assess cloud risks](#assess-cloud-risks)
+  * [Document policies](#document-policies)
+  * [Enforce policies](#enforce-policies)
+  * [Monitor cloud governance](#monitor-cloud-governance)
+* [Manage](#manage)
+  * [Ready your Azure cloud operations](#ready-your-azure-cloud-operations)
+  * [Administer your Azure cloud estate](#administer-your-azure-cloud-estate)
+  * [Monitor your Azure cloud estate](#monitor-your-azure-cloud-estate)
+  * [Protect your cloud estate](#protect-your-cloud-estate)
+* [Secure](#secure)
+  * [Modernize security posture](#modernize-security-posture)
+  * [Take advantage of security guidance](#take-advantage-of-security-guidance)
+  * [Use the CIA Triad model](#use-the-cia-triad-model)
+  * [Assign roles](#assign-roles)
+* [Module Assessment](#module-assessment)
 
 ## Introduction
 
@@ -587,10 +586,9 @@ Prepare your Azure cloud operations by taking these steps:
     | Medium     | Short downtime allowed | Affects important systems with limited tolerance for downtime.                       | Automated pipeline flags the change. Quick engineer review if monitoring raises an alert.            | Noncritical system updates, feature enhancements in short windows |
     | Low        | Ample downtime allowed | Affects noncritical systems where extended downtime is acceptable.                   | Fully automated deployment via CI/CD with predeployment tests and monitoring.                        | Routine updates, minor policy updates                             |
 
+4. **Manage daily operations.** Provide 24/7 support with global teams or on-call rotations backed by automated alerts. Automate repetitive tasks with Azure tools to reduce errors and free teams for strategic work.
 
-1. **Manage daily operations.** Provide 24/7 support with global teams or on-call rotations backed by automated alerts. Automate repetitive tasks with Azure tools to reduce errors and free teams for strategic work.
-
-2. **Improve continuously.** Hold weekly reviews of metrics, incidents, changes, and risks. Tackle resource sprawl and technical debt while building skills through Microsoft certifications and Azure training resources.
+5. **Improve continuously.** Hold weekly reviews of metrics, incidents, changes, and risks. Tackle resource sprawl and technical debt while building skills through Microsoft certifications and Azure training resources.
 
 ### Administer your Azure cloud estate
 
@@ -712,5 +710,3 @@ Continuously strengthen your security posture to keep pace with evolving threats
 ## Module Assessment
 
 <img src='images/2025-09-25-03-45-05.png' width=900>
-
-## Summary
