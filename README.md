@@ -25,7 +25,7 @@ This learning path is designed to provide a foundational understanding of Azure 
 
 This learning path is designed to equip Azure engineers with the skills needed to deploy, operate, and support Azure VMware Solution (AVS) environments. Building on the Azure VMware Solution – Foundation path, it focuses on tasks such as AVS provisioning, network integration with ExpressRoute, NSX-T configuration, and executing workload migrations using VMware HCX.
 
-- [ ] [Lab 2-1: Prepare to migrate VMWare resources to Azure by deploying Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/deploy-azure-vmware-solution/) (1hr) - added 9/23/25
+- [ ] [Lab 2-1: Prepare to migrate VMWare resources to Azure by deploying Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/deploy-azure-vmware-solution/) (1hr) - added 9/23/25 - in progress
 - [ ] [Lab 2-2: Migrate VMware vSphere resources from on-premises to Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/migrate-vmware-workloads-on-premises-azure-vmware-solution/) (1hr)
 - [ ] [Lab 2-3: Set up Azure Migrate for server migration](https://learn.microsoft.com/en-us/training/modules/m365-azure-migrate-set-up/) (0.5hrs)
 - [ ] [Lab 2-4: Design network solutions](https://learn.microsoft.com/en-us/training/modules/design-network-solutions/) (1hr)
