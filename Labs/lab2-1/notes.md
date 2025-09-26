@@ -50,6 +50,13 @@ By the end of this module, you'll be able to:
   * [Create an Azure VM to use as a jumpbox VM](#create-an-azure-vm-to-use-as-a-jumpbox-vm)
   * [Use Azure Bastion and sign in to vCenter and NSX Manager](#use-azure-bastion-and-sign-in-to-vcenter-and-nsx-manager)
   * [Check Your Knowledge](#check-your-knowledge-1)
+* [Connect to an on-premises VMware vSphere environment](#connect-to-an-on-premises-vmware-vsphere-environment)
+  * [Establish an ExpressRoute Global Reach connection to the on-premises VMware vSphere environment](#establish-an-expressroute-global-reach-connection-to-the-on-premises-vmware-vsphere-environment)
+  * [Peer the Azure VMware Solution private cloud to the on-premises environment by using the authorization key](#peer-the-azure-vmware-solution-private-cloud-to-the-on-premises-environment-by-using-the-authorization-key)
+    * [Use the Azure portal to configure peering](#use-the-azure-portal-to-configure-peering)
+    * [Use the Azure CLI to configure peering](#use-the-azure-cli-to-configure-peering)
+  * [Check Your Knowledge](#check-your-knowledge-2)
+* [Configure NSX network components](#configure-nsx-network-components)
 
 ## Introduction
 
@@ -469,3 +476,107 @@ By accessing the jumpbox through Azure Bastion, you can configure NSX and vCente
 ### Check Your Knowledge
 
 <img src='images/2025-09-26-03-49-12.png' width=700>
+
+## Connect to an on-premises VMware vSphere environment
+
+After deploying Azure VMware Solution, the next step is configuring network connectivity.
+
+The private cloud runs on dedicated bare-metal servers assigned to a single customer. These servers connect to the Azure network backbone to access Azure resources. Connectivity to Azure services is provided through the Azure VMware Solution ExpressRoute circuit.
+
+To connect with the on-premises environment, you need a customer-provided ExpressRoute circuit combined with an ExpressRoute Global Reach configuration.
+
+### Establish an ExpressRoute Global Reach connection to the on-premises VMware vSphere environment
+
+Global Reach connects your on-premises VMware vSphere environment to the Azure VMware Solution private cloud. It establishes connectivity between the Azure VMware Solution ExpressRoute circuit and a new or existing ExpressRoute circuit for your on-premises environment.
+
+To create an ExpressRoute Global Reach authorization key:
+
+1. In the **Azure VMware Solution private cloud Overview**, under **Manage**, select **Connectivity > ExpressRoute > Request an authorization key**.
+
+    <img src='images/2025-09-26-03-53-52.png' width=700>
+
+2. Enter a name for the authorization key.
+3. Select **Create**.
+
+    <img src='images/2025-09-26-03-54-17.png' width=700>
+
+4. The new key will appear in the authorization key list for the private cloud.
+
+    <img src='images/2025-09-26-03-54-38.png' width=700>
+
+Use this authorization key and the ExpressRoute ID to complete the peering.
+
+### Peer the Azure VMware Solution private cloud to the on-premises environment by using the authorization key
+
+After creating the authorization key, peer the Azure VMware Solution ExpressRoute circuit with the on-premises circuit.
+
+You can configure the peering through the **Azure portal** or the **Azure CLI in Cloud Shell**. In both cases, you’ll need:
+
+* The **resource ID** of the Azure VMware Solution ExpressRoute circuit
+* The **authorization key** generated earlier
+
+#### Use the Azure portal to configure peering
+
+To configure peering in the Azure portal:
+
+1. In the **Azure portal**, open the **Azure VMware Solution private cloud**.
+2. From **Overview**, under **Manage**, select **Connectivity > ExpressRoute Global Reach > Add**.
+3. Create the on-premises cloud connection by either:
+
+   * Selecting the ExpressRoute circuit from the list, or
+   * Copying and pasting the circuit ID.
+4. Select **Create**.
+
+    <img src='images/2025-09-26-03-56-56.png' width=700>
+
+The new connection will then appear in the list of on-premises cloud connections.
+
+#### Use the Azure CLI to configure peering
+
+Use the Azure CLI to set up ExpressRoute peering.
+
+1. Sign in to the Azure portal with the same subscription as the on-premises ExpressRoute circuit.
+2. Open Cloud Shell and keep the shell as Bash.
+3. Note the values you’ll need:
+
+    * Resource ID of the second circuit
+    * Authorization key
+
+4. Create an authorization on the second circuit:
+
+    ```bash
+    az network express-route auth create --circuit-name <Circuit2Name> -g <Circuit2ResourceGroupName> -n <AuthorizationName>
+    ```
+
+    Example output:
+
+    ```json
+    {
+      "authorizationKey": "<authorizationKey>",
+      "authorizationUseStatus": "Available",
+      "etag": "W/\"cfd15a2f-43a1-4361-9403-6a0be00746ed\"",
+      "id": "/subscriptions/<SubscriptionID>/resourceGroups/<Circuit2ResourceGroupName>/providers/Microsoft.Network/expressRouteCircuits/<Circuit2Name>/authorizations/<AuthorizationName>",
+      "name": "<AuthorizationName>",
+      "provisioningState": "Succeeded",
+      "resourceGroup": "<Circuit2ResourceGroupName>",
+      "type": "Microsoft.Network/expressRouteCircuits/authorizations"
+    }
+    ```
+
+5. Copy the authorizationKey and the id (resource ID). You’ll use them to establish peering.
+
+6. Create the peering connection from the first circuit, passing the second circuit’s resource ID and authorization key:
+
+    ```bash
+    az network express-route peering connection create -g <ResourceGroupName> --circuit-name <Circuit1Name> --peering-name AzurePrivatePeering -n <ConnectionName> --peer-circuit <Circuit2ResourceID> --authorization-key <authorizationKey>
+    ```
+
+After the command succeeds, connectivity is established between your on-premises environment and Azure VMware Solution through the two ExpressRoute circuits.
+
+Next, configure NSX networking in the Azure portal. NSX Manager provides the software-defined networking layer for Azure VMware Solution.
+
+### Check Your Knowledge
+
+<img src='images/2025-09-26-04-03-14.png' width=700>
+
+## Configure NSX network components
