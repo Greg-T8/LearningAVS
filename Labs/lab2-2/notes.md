@@ -31,6 +31,13 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
 * [Deploy and install VMware HCX](#deploy-and-install-vmware-hcx)
   * [Download VMware HCX Connector](#download-vmware-hcx-connector)
   * [Deploy the VMware HCX Connector OVA on-premises](#deploy-the-vmware-hcx-connector-ova-on-premises)
+  * [Activate VMware HCX](#activate-vmware-hcx)
+  * [Check your knowledge](#check-your-knowledge-1)
+* [Configure networking and compute profiles for VMware HCX](#configure-networking-and-compute-profiles-for-vmware-hcx)
+  * [What is a site pair?](#what-is-a-site-pair)
+  * [Add a site pair](#add-a-site-pair)
+  * [Create network profiles](#create-network-profiles)
+  * [Create a compute profile](#create-a-compute-profile)
 
 ## Introduction
 
@@ -230,3 +237,113 @@ For the exercises, you’ll need an Azure subscription with contributor rights t
 
 12. After deployment, manually power on the virtual appliance in vCenter Server.
 13. Wait 10–15 minutes before continuing with configuration.
+
+### Activate VMware HCX
+
+1. In the Azure portal, go to **Manage > Add-ons** for your Azure VMware Solution private cloud.
+2. Open the **Migration using VMware HCX** tab and select **+ Add**.
+
+    <img src='images/2025-09-27-05-29-24.png' width=700>
+
+3. Enter a name for the key. Azure generates a VMware HCX Enterprise key for on-premises use.
+4. Sign in to the on-premises **VMware HCX Manager** at `https://x.x.x.x:9443` using the admin credentials created earlier.
+5. Enter the HCX License Key and select **Add**.
+
+   * If activation fails, check internet connectivity or configure a proxy.
+
+6. In **Datacenter Location**, choose the closest region and select **Continue**.
+
+    <img src='images/2025-09-27-05-31-31.png' width=800>
+
+7. In **System Name**, keep or change the appliance name, then select **Continue**.
+
+    <img src='images/2025-09-27-05-33-31.png' width=700>
+
+8. Select **Yes, Continue** to proceed with setup.
+
+    <img src='images/2025-09-27-05-33-53.png' width=500>
+
+9. Under **Connect your vCenter**, provide the FQDN or IP of the on-premises vCenter Server and valid credentials, then select **Continue**.
+
+    <img src='images/2025-09-27-05-34-29.png' width=700>
+
+10. In **Configure SSO/PSC**, enter the FQDN or IP of the Platform Services Controller, then select **Continue**.
+
+    <img src='images/2025-09-27-05-34-56.png' width=700>
+
+11. Review the configuration, then select **Restart**.
+
+    * The restart may take several minutes.
+
+      <img src='images/2025-09-27-05-35-23.png' width=800>
+
+12. After the appliance restarts, sign back in.
+
+    * A green circle should appear next to vCenter Server.
+    * SSO should confirm VMware HCX Connector is using the Platform Services Controller.
+
+      <img src='images/2025-09-27-05-36-02.png' width=800>
+
+Next, you’ll configure a site pairing, networking profiles, and a compute profile.
+
+### Check your knowledge
+
+  <img src='images/2025-09-27-05-43-00.png' width=700>
+
+## Configure networking and compute profiles for VMware HCX
+
+After installing VMware HCX Connector on-premises, the next step is to link it with VMware HCX Cloud in Azure VMware Solution. The following units will guide you through the steps required to complete this connection.
+
+### What is a site pair?
+
+The first step is to create a site pair. A site pair establishes the network connectivity required for management, authentication, and orchestration of VMware HCX migration services between a source and destination VMware vSphere environment. In this case, the source is the on-premises VMware vSphere environment, and the destination is Azure VMware Solution. The table below provides more details:
+
+| Component               | Notes                                                                                                                                                                                                                                          |
+| -----------------------| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HCX Connector (source)  | - Deployed in the on-premises vSphere environment after Azure VMware Solution is deployed.<br>- Creates a unidirectional site pairing to Azure VMware Solution.<br>- Initiates migrations to Azure VMware Solution.                            |
+| HCX Cloud (destination) | - Provisioned with Azure VMware Solution when the private cloud is deployed in Azure.<br>- Serves as the destination for VMware HCX site pairing.<br>- Always a software-defined datacenter.<br>- Supports optional layer 2 network extension. |
+
+### Add a site pair
+
+1. Sign in to the on-premises vCenter Server.
+2. From **Menu**, select **HCX**.
+
+    <img src='images/2025-09-27-05-46-52.png' width=200>
+
+3. Under **Infrastructure**, choose **Site Pairing**.
+4. Under **Pair your first site**, select **Connect To Remote Site**.
+
+    <img src='images/2025-09-27-05-47-26.png' width=800>
+
+5. Enter the Azure VMware Solution HCX Cloud Manager IP address obtained earlier.
+6. Enter the username `cloudadmin@vsphere.local` and the password from the Azure portal.
+7. Select **Connect**.
+    - If a certificate warning appears, select **Import Certificate** to continue.
+
+      <img src='images/2025-09-27-05-48-23.png' width=400>
+
+8. Ensure VMware HCX Connector can route to the HCX Cloud Manager IP over port 443 using Azure ExpressRoute.
+9. Once connected, the HCX Site Pairing tab will show the new on-premises HCX Connector paired with the VMware HCX Cloud Manager in Azure VMware Solution.
+
+### Create network profiles
+
+VMware HCX Connector on-premises deploys automated virtual appliances that need multiple IP segments. To support this, you must configure network profiles based on the IP segments identified during the HCX deployment planning phase.
+
+1. Sign in to the on-premises VMware HCX Connector.
+2. Create four network profiles:
+
+   * Management
+   * vMotion
+   * Replication
+   * Uplink
+
+3. Go to **Infrastructure > Interconnect > Multi-Site Service Mesh > Network Profiles**.
+
+    <img src='images/2025-09-27-05-50-57.png' width=900>
+
+4. Select **Create Network Profile**.
+5. For each profile, choose the network and port group, enter a name, and define the segment’s IP pool.
+  <img src='images/2025-09-27-05-51-56.png' width=800>
+6. Select **Create** to complete each profile.
+
+### Create a compute profile
