@@ -42,6 +42,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [What is a service mesh?](#what-is-a-service-mesh)
   * [Create a service mesh](#create-a-service-mesh)
 * [Migrate virtual machine workloads into Azure VMware Solution](#migrate-virtual-machine-workloads-into-azure-vmware-solution)
+  * [Migrate virtual machines](#migrate-virtual-machines)
 
 ## Introduction
 
@@ -468,3 +469,16 @@ To successfully establish a service mesh with Azure VMware Solution, you must me
 Next, you’ll learn how to migrate VMs from on-premises vSphere to Azure VMware Solution using VMware HCX.
 
 ## Migrate virtual machine workloads into Azure VMware Solution
+
+After installing VMware HCX and connecting your on-premises VMware vSphere environment to Azure VMware Solution, the next step is to migrate virtual machines. Use the VMware HCX Connector migration web interface to move VMs running Windows Server and Linux from on-premises to Azure VMware Solution.
+
+### Migrate virtual machines
+
+VMware HCX supports multiple migration methods for moving Windows Server and Linux VMs into Azure VMware Solution, including cold, live, Replication Assisted vMotion (RAV), and bulk migration. You configure these migrations through the on-premises VMware HCX Connector that established site pairing with Azure VMware Solution.
+
+The VMware HCX migration interface also provides VM options to control behaviors and conditions that apply before or after migration.
+
+Avoid taking snapshots of VMs during migration, whether manually or with third-party backup tools, as this can disrupt the process. Disable backups until the VM migration fully completes.
+
+
+> Try our HCX migration click-through demo. This demo shows how an organization can confidently migrate workloads from an on-premises VMware deployment to a private cloud in Microsoft Azure. [Azure VMware Solution - HCX Migration Demo](https://regale.cloud/Microsoft/play/3210/hcx-migration#/0/0)
