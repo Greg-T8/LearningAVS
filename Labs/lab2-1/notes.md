@@ -57,6 +57,12 @@ By the end of this module, you'll be able to:
     * [Use the Azure CLI to configure peering](#use-the-azure-cli-to-configure-peering)
   * [Check Your Knowledge](#check-your-knowledge-2)
 * [Configure NSX network components](#configure-nsx-network-components)
+  * [Set up NSX Manager components](#set-up-nsx-manager-components)
+  * [Create an NSX network segment in the Azure portal](#create-an-nsx-network-segment-in-the-azure-portal)
+  * [Create an NSX network segment in the NSX](#create-an-nsx-network-segment-in-the-nsx)
+  * [Create a DHCP server or DHCP relay in the Azure portal](#create-a-dhcp-server-or-dhcp-relay-in-the-azure-portal)
+  * [Configure port mirroring in the portal](#configure-port-mirroring-in-the-portal)
+  * [Configure a DNS forwarder in the Azure portal](#configure-a-dns-forwarder-in-the-azure-portal)
 
 ## Introduction
 
@@ -580,3 +586,142 @@ Next, configure NSX networking in the Azure portal. NSX Manager provides the sof
 <img src='images/2025-09-26-04-03-14.png' width=700>
 
 ## Configure NSX network components
+
+Azure VMware Solution uses NSX Manager as its software-defined network layer. The setup includes two gateways:
+
+* An NSX Tier-0 gateway running in active-active mode
+* An NSX Tier-1 gateway running in active-standby mode
+
+Both gateways enable communication between logical switch segments and provide East-West as well as North-South connectivity.
+
+### Set up NSX Manager components
+
+After deploying Azure VMware Solution, NSX components are managed under Workload Networking in the Azure portal. The portal provides a simplified interface for VMware administrators and is designed for users who may not be familiar with NSX Manager. Advanced configurations can still be done directly in NSX Manager.
+
+The Azure portal offers four configuration options for NSX components:
+
+* **Segments:** Create network segments that also appear in NSX Manager and vCenter Server
+* **DHCP:** Configure a DHCP server or relay if DHCP is required
+* **Port mirroring:** Enable port mirroring to troubleshoot network issues
+* **DNS:** Set up a DNS forwarder to route DNS requests to a DNS server for resolution
+
+  <img src='images/2025-09-27-03-57-53.png' width=700>
+
+### Create an NSX network segment in the Azure portal
+
+Virtual machines created or migrated to Azure VMware Solution must connect to an NSX network segment. You can create a segment in the Azure VMware Solution console within the Azure portal. These segments connect to the default Tier-1 gateway and provide both East-West and North-South connectivity. Once created, the segment appears in NSX Manager and vCenter Server.
+
+Steps in the Azure portal:
+
+1. Select your Azure VMware Solution private cloud.
+2. Under Workload Networking, choose Segments > +Add.
+
+    <img src='images/2025-09-27-04-00-58.png' width=700>
+
+3. Enter details for the new segment:
+
+    | Field                  | Value                                                                                                                                                    |
+    | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Segment name           | Name of the logical switch, visible in vCenter Server.                                                                                                   |
+    | Connected gateway      | Pre-selected and read-only.                                                                                                                              |
+    | T1                     | Name of the Tier-1 gateway in NSX Manager. Only the default Tier-1 gateway is visible in the portal; additional gateways must be created in NSX Manager. |
+    | Type                   | Overlay network segment supported by Azure VMware Solution.                                                                                              |
+    | Subnet Gateway         | Gateway IP address with subnet mask for the logical switch. All VMs attached to this switch share the same subnet.                                       |
+    | DHCP ranges (optional) | DHCP ranges for the segment. Requires a configured DHCP server or relay.                                                                                 |
+
+    <img src='images/2025-09-27-04-01-22.png' width=500>
+
+4. Select OK to create the segment and attach it to the Tier-1 gateway. It will then be visible in Azure VMware Solution, NSX Manager, and vCenter Server.
+
+### Create an NSX network segment in the NSX
+
+You can also create an NSX network segment directly in the NSX console. These segments connect to the default Tier-1 gateway and provide East-West and North-South connectivity.
+
+Steps:
+
+1. From a Jumpbox VM, connect to NSX Manager. Credentials are available under **Manage > VMware credentials**.
+2. In NSX Manager, go to **Networking > Segments** and select **Add Segment**.
+
+    <img src='images/2025-09-27-04-04-58.png' width=800>
+
+3. Enter details for the new segment, then select Save.
+
+    <img src='images/2025-09-27-04-05-27.png' width=800>
+
+    | Field             | Value                                                                                                                                                    |
+    | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Segment name      | Name of the logical switch, visible in vCenter Server.                                                                                                   |a
+    | Connected gateway | Name of the Tier-1 gateway in NSX Manager. Only the default Tier-1 gateway is visible in the portal; additional gateways must be created in NSX Manager. |
+    | Transport Zone    | Name of the preconfigured overlay Transport Zone (TNTxx-OVERLAY-TZ).                                                                                     |
+    | Subnets           | Subnet IP address range in CIDR format. Must use a non-overlapping RFC1918 block to ensure connectivity with VMs on the new segment.                     |
+
+### Create a DHCP server or DHCP relay in the Azure portal
+
+Applications and workloads in a private cloud need DHCP for IP assignments and name resolution. You can use NSX’s built-in DHCP service or a local DHCP server.
+
+In the Azure portal, you can configure a DHCP server or relay from the Azure VMware Solution console. The DHCP component connects to the Tier-1 gateway created during deployment. Any segment with defined DHCP ranges will use these services. After creating the DHCP server or relay, you must assign a subnet or range on an NSX segment to enable DHCP.
+
+Steps:
+
+1. In your Azure VMware Solution private cloud, go to **Workload Networking > DHCP > +Add.**
+2. Choose either **DHCP Server** or **DHCP Relay**.
+3. Enter a name and provide three IP addresses for a DHCP server (only one IP address is required for a relay).
+
+    <img src='images/2025-09-27-04-12-15.png' width=700>
+
+4. Define DHCP ranges on the logical segments configured earlier.
+5. Select **OK** to finish.
+
+### Configure port mirroring in the portal
+
+Port mirroring copies network traffic from one port to another so it can be analyzed. A protocol analyzer on the destination port inspects the mirrored traffic. You can mirror traffic from a single VM or a VM group, then send it to another VM or group for troubleshooting. Use this feature only for short-term diagnostics.
+
+Steps to configure in the Azure VMware Solution console:
+
+1. Create the source VM group:
+
+   * Go to **Workload Networking > Port mirroring > VM groups > +Add**.
+   * Name the group, select the VMs, then select **OK**.
+
+      <img src='images/2025-09-27-04-22-54.png' width=500>
+
+2. Create the destination VM group the same way.
+
+3. Create a port mirroring profile:
+
+   * Ensure both source and destination groups exist.
+   * Go to **Port mirroring > Add**.
+   * Enter the following:
+
+     * Port mirroring name: Enter a profile name
+     * Direction: Choose **Ingress**, **Egress**, or **Bi-directional**
+     * Source: Select the source VM group
+     * Destination: Select the destination VM group
+
+        <img src='images/2025-09-27-04-23-36.png' width=800>
+
+        | Field               | Value                                     |
+        | ------------------- | ----------------------------------------- |
+        | Port mirroring name | Provide a name for the profile            |
+        | Direction           | Select Ingress, Egress, or Bi-directional |
+        | Source              | Select the source VM group                |
+        | Destination         | Select the destination VM group           |
+
+   * Select **OK**.
+
+The new profile and VM groups will now appear in the Azure VMware Solution console.
+
+### Configure a DNS forwarder in the Azure portal
+
+A DNS forwarder directs specific DNS requests to chosen DNS servers. In Azure VMware Solution, a DNS service and default DNS zone are provided. By default, requests are sent to Cloudflare’s public DNS server. If you need private name resolution, set up conditional forwarding with an FQDN zone to route queries to private DNS servers.
+
+Steps to configure a DNS forwarder:
+
+1. In your VMware Solution private cloud, go to **Workload Networking > DNS > DNS zones > +Add**.
+2. Select **FQDN zone**, enter a zone name, and provide up to three DNS server IPs (for example, `10.0.0.53`). Select **OK**.
+3. Monitor progress under **Notifications**. A confirmation appears once the zone is created.
+4. Repeat the steps to add more FQDN zones, including reverse lookup zones if needed.
+
+When a DNS query arrives, the forwarder checks if the domain matches an FQDN zone. If matched, the query is sent to the specified DNS servers. If not, it defaults to the DNS servers in the default DNS zone.
+
+Do you want me to also put the key configuration fields (zone type, zone name, DNS server IPs) into a markdown table like I did for port mirroring?
