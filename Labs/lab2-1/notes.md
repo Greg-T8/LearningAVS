@@ -63,6 +63,11 @@ By the end of this module, you'll be able to:
   * [Create a DHCP server or DHCP relay in the Azure portal](#create-a-dhcp-server-or-dhcp-relay-in-the-azure-portal)
   * [Configure port mirroring in the portal](#configure-port-mirroring-in-the-portal)
   * [Configure a DNS forwarder in the Azure portal](#configure-a-dns-forwarder-in-the-azure-portal)
+  * [Verify on-premises vSphere network connectivity to the Azure VMware Solution private cloud](#verify-on-premises-vsphere-network-connectivity-to-the-azure-vmware-solution-private-cloud)
+  * [Add a VM on an NSX network segment](#add-a-vm-on-an-nsx-network-segment)
+  * [Test the NSX segment connectivity](#test-the-nsx-segment-connectivity)
+* [Module assessment](#module-assessment)
+* [Learn More](#learn-more)
 
 ## Introduction
 
@@ -719,9 +724,59 @@ Steps to configure a DNS forwarder:
 
 1. In your VMware Solution private cloud, go to **Workload Networking > DNS > DNS zones > +Add**.
 2. Select **FQDN zone**, enter a zone name, and provide up to three DNS server IPs (for example, `10.0.0.53`). Select **OK**.
+
+    <img src='images/2025-09-27-04-29-35.png' width=800>
+
 3. Monitor progress under **Notifications**. A confirmation appears once the zone is created.
 4. Repeat the steps to add more FQDN zones, including reverse lookup zones if needed.
 
 When a DNS query arrives, the forwarder checks if the domain matches an FQDN zone. If matched, the query is sent to the specified DNS servers. If not, it defaults to the DNS servers in the default DNS zone.
 
-Do you want me to also put the key configuration fields (zone type, zone name, DNS server IPs) into a markdown table like I did for port mirroring?
+### Verify on-premises vSphere network connectivity to the Azure VMware Solution private cloud
+
+To verify on-premises vSphere connectivity with the Azure VMware Solution private cloud:
+
+1. Confirm the Azure ExpressRoute circuit is connected to the NSX network segments and management segments in the edge router.
+2. Check if routes need to propagate back to the on-premises network.
+3. If a firewall protects the ExpressRoute circuit, review and allow the required traffic.
+4. If no firewall is present, ping the Azure VMware Solution vCenter Server or a VM on the NSX segment from the on-premises environment.
+5. From the VM on the NSX segment, verify it can reach the on-premises vSphere environment.
+
+### Add a VM on an NSX network segment
+
+To add a VM on an NSX network segment for connectivity testing:
+
+1. In Azure VMware Solution vCenter Server, deploy a new VM as you would in any vSphere environment.
+2. Attach the VM to a network segment created earlier in NSX Manager.
+3. Configure networking:
+
+   * Allow the VM to receive settings from a DHCP server, or
+   * Assign a static IP configuration.
+
+This VM can then be used to verify connectivity:
+
+* To and from the internet
+* To and from Azure virtual networks
+* To and from on-premises environments
+
+### Test the NSX segment connectivity
+
+To test NSX segment connectivity:
+
+1. Sign in to the VM you deployed.
+2. Ping a public IP on the internet.
+3. Open a browser and visit an internet site.
+4. Ping an internal VM on the Azure virtual network.
+
+If all tests succeed, Azure VMware Solution connectivity to the internet and Azure virtual networks is confirmed.
+
+## Module assessment
+
+<img src='images/2025-09-27-04-36-04.png' width=800>
+
+## Learn More
+
+* [Azure VMware Solution documentation](https://learn.microsoft.com/en-us/azure/azure-vmware/)
+* [Configure a virtual network gateway for ExpressRoute using the Azure portal](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-howto-add-gateway-portal-resource-manager)
+* [ExpressRoute Global Reach](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-global-reach)
+* [Add an NSX network segment in Azure VMware Solution](https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-nsx-t-network-segment)
