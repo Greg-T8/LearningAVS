@@ -41,6 +41,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
 * [Create a service mesh for VMware HCX](#create-a-service-mesh-for-vmware-hcx)
   * [What is a service mesh?](#what-is-a-service-mesh)
   * [Create a service mesh](#create-a-service-mesh)
+* [Migrate virtual machine workloads into Azure VMware Solution](#migrate-virtual-machine-workloads-into-azure-vmware-solution)
 
 ## Introduction
 
@@ -465,3 +466,5 @@ To successfully establish a service mesh with Azure VMware Solution, you must me
       <img src='images/2025-09-27-06-14-15.png' width=900>
 
 Next, you’ll learn how to migrate VMs from on-premises vSphere to Azure VMware Solution using VMware HCX.
+
+## Migrate virtual machine workloads into Azure VMware Solution
