@@ -1,4 +1,4 @@
-# Lab 1-3 - Prepare to migrate VMware resources to Azure by deploying Azure VMware Solution
+# Lab 2-1 - Prepare to migrate VMware resources to Azure by deploying Azure VMware Solution
 
 **Module:** [Prepare to migrate VMware resources to Azure by deploying Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/deploy-azure-vmware-solution/)
 
