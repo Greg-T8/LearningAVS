@@ -38,6 +38,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [Add a site pair](#add-a-site-pair)
   * [Create network profiles](#create-network-profiles)
   * [Create a compute profile](#create-a-compute-profile)
+* [Create a service mesh for VMware HCX](#create-a-service-mesh-for-vmware-hcx)
 
 ## Introduction
 
@@ -347,3 +348,54 @@ VMware HCX Connector on-premises deploys automated virtual appliances that need 
 6. Select **Create** to complete each profile.
 
 ### Create a compute profile
+
+After creating network profiles, you must configure a compute profile. The compute profile defines the compute, storage, and network settings used by VMware HCX to build the service mesh, which enables VM migrations from on-premises to Azure VMware Solution.
+
+1. Go to **Infrastructure > Interconnect > Compute Profiles > Create Compute Profile**.
+
+    <img src='images/2025-09-27-05-56-18.png' width=800>
+
+2. Enter a name for the profile and select **Continue**.
+
+    <img src='images/2025-09-27-05-57-01.png' width=700>
+
+3. On the services screen, keep all default services enabled and select **Continue**.
+
+    <img src='images/2025-09-27-05-57-21.png' width=800>
+
+4. Under **Select Service Resources**, choose one or more service resources (clusters) and select **Continue**.
+5. From **Select Datastore**, pick the datastore for deploying VMware HCX Interconnect appliances, then select **Continue**. Note: if multiple resources are chosen, VMware HCX uses the first until full.
+
+    <img src='images/2025-09-27-05-57-55.png' width=800>
+
+6. From **Select Management Network Profile**, choose the management network profile created earlier and select **Continue**.
+
+    <img src='images/2025-09-27-05-58-51.png' width=700>
+
+7. From **Select Uplink Network Profile**, choose the uplink network profile and select **Continue**.
+
+    <img src='images/2025-09-27-05-59-26.png' width=700>
+
+8. From **Select vMotion Network Profile**, choose the vMotion network profile and select **Continue**.
+
+    <img src='images/2025-09-27-06-00-18.png' width=700>
+
+9. From **Select vSphere Replication Network Profile**, choose the replication network profile and select **Continue**.
+
+    <img src='images/2025-09-27-06-00-46.png' width=700>
+
+10. Review the connection rules and select **Continue**.
+
+    <img src='images/2025-09-27-06-01-02.png' width=500>
+
+11. Select **Finish** to create the compute profile.
+
+    <img src='images/2025-09-27-06-01-19.png' width=800>
+
+The new compute profile now appears under **Compute Profiles** in **Interconnect**. 
+
+<img src='images/2025-09-27-06-01-40.png' width=800>
+
+The next step will be setting up a service mesh to complete the VMware HCX Connector configuration.
+
+## Create a service mesh for VMware HCX
