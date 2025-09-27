@@ -30,6 +30,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [Check your knowledge](#check-your-knowledge)
 * [Deploy and install VMware HCX](#deploy-and-install-vmware-hcx)
   * [Download VMware HCX Connector](#download-vmware-hcx-connector)
+  * [Deploy the VMware HCX Connector OVA on-premises](#deploy-the-vmware-hcx-connector-ova-on-premises)
 
 ## Introduction
 
@@ -152,21 +153,80 @@ For the exercises, you’ll need an Azure subscription with contributor rights t
 
       <img src='images/2025-09-27-05-13-59.png' width=800>
 
-
 4. After deployment, return to **Manage > Add-ons**.
 
    * The **Migration using HCX** tab now shows new options: **HCX plan**, **Configure HCX appliance**, and **Connect with on-premise using HCX keys**.
+
+      <img src='images/2025-09-27-05-18-01.png' width=800>
+
 5. Select **+ Add** under **Connect with on-premise using HCX keys**.
 
    * Enter a VMware HCX key name.
    * Copy the generated activation key for use during the on-premises HCX Connector installation.
+
+      <img src='images/2025-09-27-05-19-04.png' width=800>
+
 6. In the Azure VMware Solution private cloud, go to **Manage > Identity**.
 
    * Copy the URLs and credentials for vCenter and NSX-T Manager.
+
+      <img src='images/2025-09-27-05-20-21.png' width=700>
+
+
 7. From a jump host VM (via Azure Bastion), open a browser and sign in to **VMware HCX Manager** at `https://x.x.x.9` (replace x’s with the CIDR address block).
 
    * Use `cloudadmin@vsphere.local` credentials.
 8. In **VMware HCX Cloud Manager**, navigate to **Administration > System Updates > Check for Updates**.
 9. Select **Request Download Link**.
+
+    <img src='images/2025-09-27-05-21-09.png' width=900>
+
 10. Choose **VMware HCX** to download the VMware HCX Connector OVA file.
+
+    <img src='images/2025-09-27-05-21-53.png' width=900>
+
 11. Monitor the browser’s status bar to track the OVA file download progress.
+
+### Deploy the VMware HCX Connector OVA on-premises
+
+1. Sign in to the **vCenter Server web GUI**.
+2. Right-click the datacenter and select **Deploy OVF Template**.
+
+    <img src='images/2025-09-27-05-23-12.png' width=300>
+
+3. Choose the local **VMware HCX Connector OVA file** you downloaded.
+
+    <img src='images/2025-09-27-05-23-52.png' width=800>
+
+4. For **Select a name and folder**, enter a name for the appliance, choose the datacenter resource, and select **Next**.
+
+    <img src='images/2025-09-27-05-24-47.png' width=600>
+
+5. For **Select a compute resource**, pick the vSphere cluster and select **Next**.
+
+    <img src='images/2025-09-27-05-25-09.png' width=600>
+
+6. Review the advanced configuration options and select **Next**.
+
+    <img src='images/2025-09-27-05-25-28.png' width=700>
+
+7. Accept the license terms by checking **I accept all license agreements**, then select **Next**.
+
+8. Choose the storage location for the appliance and select **Next**.
+
+    <img src='images/2025-09-27-05-25-58.png' width=600>
+
+9. Select the **VMware HCX management network segment**, then select **Next**.
+
+    <img src='images/2025-09-27-05-26-28.png' width=600>
+
+10. In **Customize template**, use the default **admin** account for configuration, enter the required details, and select **Next**.
+
+    <img src='images/2025-09-27-05-26-58.png' width=800>
+
+11. On **Ready to complete**, review all settings and select **Finish**.
+
+    <img src='images/2025-09-27-05-28-00.png' width=800>
+
+12. After deployment, manually power on the virtual appliance in vCenter Server.
+13. Wait 10–15 minutes before continuing with configuration.
