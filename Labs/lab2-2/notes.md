@@ -39,6 +39,8 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [Create network profiles](#create-network-profiles)
   * [Create a compute profile](#create-a-compute-profile)
 * [Create a service mesh for VMware HCX](#create-a-service-mesh-for-vmware-hcx)
+  * [What is a service mesh?](#what-is-a-service-mesh)
+  * [Create a service mesh](#create-a-service-mesh)
 
 ## Introduction
 
@@ -399,3 +401,67 @@ The new compute profile now appears under **Compute Profiles** in **Interconnect
 The next step will be setting up a service mesh to complete the VMware HCX Connector configuration.
 
 ## Create a service mesh for VMware HCX
+
+After completing the site pairing, network profiles, and compute profile setup, the next step is to configure a service mesh for VMware HCX Manager. The service mesh enables VMware HCX Manager to migrate virtual machines from the on-premises HCX-enabled site to the HCX-enabled destination site in Azure VMware Solution.
+
+### What is a service mesh?
+
+A service mesh is an abstraction layer that simplifies network transport between source and destination sites. It decouples workloads and application services from the underlying networking components required for inter-site communication. The service mesh creates a secure, optimized transport fabric between VMware HCX Manager sites. Once enabled, it allows VMware vSphere VMs to be migrated to Azure VMware Solution.
+
+### Create a service mesh
+
+To successfully establish a service mesh with Azure VMware Solution, you must meet the following networking requirements:
+
+| Requirement                       | Reason                                                                                                                                      |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| UDP ports 500/4500                | Must be open between the VMware HCX Connector uplink and the Azure VMware Solution HCX Cloud uplink network profile addresses.              |
+| VMware HCX Manager required ports | Refer to the VMware HCX URL provided at the end of this module for a full list of required open ports between source and destination sites. |
+
+1. In the on-premises VMware HCX Connector dashboard, go to **Infrastructure > Interconnect > Service Mesh > Create Service Mesh**.
+
+    <img src='images/2025-09-27-06-09-07.png' width=900>
+
+2. Review the prepopulated sites from site pairing, then select **Continue**. (No changes needed for the first configuration.)
+3. From the dropdowns, select both the source and remote compute profiles, then select **Continue**.
+
+    <img src='images/2025-09-27-06-09-47.png' width=700>
+
+    <img src='images/2025-09-27-06-10-29.png' width=700>
+
+4. Review the services to be enabled, then select **Continue**.
+
+    <img src='images/2025-09-27-06-10-45.png' width=700>
+
+5. In **Advanced Configuration - Override Uplink Network Profiles**, select **Continue**. (Optional step.)
+
+    <img src='images/2025-09-27-06-11-11.png' width=700>
+
+6. In **Advanced Configuration - Network Extension Appliance Scale Out**, confirm the checkbox for the vMotion distributed switch is already selected. Leave it checked and select **Continue**.
+7. In **Advanced Configuration - Traffic Engineering**, select **Continue**.
+
+    <img src='images/2025-09-27-06-12-20.png' width=800>
+
+8. Review the topology preview, then select **Continue**.
+
+    <img src='images/2025-09-27-06-12-56.png' width=800>
+
+9.  Enter a user-friendly name for the service mesh, then select **Finish**.
+
+    <img src='images/2025-09-27-06-13-14.png' width=800>
+
+10. Select **View Tasks** to monitor deployment progress.
+
+    <img src='images/2025-09-27-06-13-32.png' width=900>
+
+11. When deployment is complete, ensure all services show as green.
+
+    <img src='images/2025-09-27-06-13-57.png' width=900>
+
+12. To verify health:
+
+    * On-premises: go to **Interconnect > Appliances** and confirm all tunnel statuses show green and Up.
+    * Azure VMware Solution: check the same **Appliances** page for deployed appliances and verify their health.
+
+      <img src='images/2025-09-27-06-14-15.png' width=900>
+
+Next, you’ll learn how to migrate VMs from on-premises vSphere to Azure VMware Solution using VMware HCX.
