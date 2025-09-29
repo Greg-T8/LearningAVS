@@ -46,6 +46,11 @@ Learn how to route, control, and inspect outbound network traffic from an Azure 
   * [Controlling network traffic](#controlling-network-traffic)
   * [Firewall internet route](#firewall-internet-route)
   * [Exercise - create and configure Azure Firewall](#exercise---create-and-configure-azure-firewall)
+  * [Deploy Azure Firewall](#deploy-azure-firewall)
+  * [Create route table and default route](#create-route-table-and-default-route)
+  * [Associate the route table](#associate-the-route-table)
+  * [Knwowledge check](#knwowledge-check)
+* [Using FRRouting as an NVA](#using-frrouting-as-an-nva)
 
 ## Introduction
 
@@ -232,3 +237,82 @@ The next unit provides technical instructions to implement Azure Firewall and en
 ### Exercise - create and configure Azure Firewall
 
 > Try the **Secure Outbound Internet Connectivity** click-through demo. It demonstrates how to use an Azure VNet with Route Server, a Network Virtual Appliance (NVA), and Azure Firewall to inspect and manage traffic from Azure VMware Solution to the internet. [Click-through demo link](https://regale.cloud/microsoft/play/4174/secure-outbound-internet-connectivity#/0/0)
+
+### Deploy Azure Firewall
+
+Create the AzureFirewallSubnet and a public IP.
+
+```bash
+az network vnet subnet create \
+  -n AzureFirewallSubnet \
+  -g <resource-group-name> \
+  --vnet-name <vnet-name> \
+  --address-prefix 10.0.1.0/24
+
+az network public-ip create \
+  -n <name-for-firewall-pip> \
+  -g <resource-group-name> \
+  --version IPv4 \
+  --sku Standard
+```
+
+Create the firewall and its IP configuration.
+
+```bash
+az network firewall create \
+  -n <name-of-firewall> \
+  -g <resource-group-name> \
+  --location <your-preferred-azure-region>
+
+az network firewall ip-config create \
+  --firewall-name <name-of-firewall> \
+  --name <firewall-config-name> \
+  --public-ip-address <name-of-firewall-pip> \
+  --resource-group <resource-group-name> \
+  --vnet-name <vnet-name>
+
+az network firewall update \
+  --name <name-of-firewall> \
+  --resource-group <resource-group-name>
+```
+
+### Create route table and default route
+
+Create a route table with BGP propagation disabled.
+
+```bash
+az network route-table create \
+  --name <firewall-route-table-name> \
+  --resource-group <resource-group-name> \
+  --location <your-preferred-azure-region> \
+  --disable-bgp-route-propagation true
+```
+
+Add a 0.0.0.0/0 route to the internet for firewall egress.
+
+```bash
+az network route-table route create \
+  --resource-group <resource-group-name> \
+  --name <route-name> \
+  --route-table-name <firewall-route-table-name> \
+  --address-prefix 0.0.0.0/0 \
+  --next-hop-type Internet
+```
+
+### Associate the route table
+
+Associate the route table to the AzureFirewallSubnet.
+
+```bash
+az network vnet subnet update \
+  --name AzureFirewallSubnet \
+  --resource-group <resource-group-name> \
+  --vnet-name <vnet-name> \
+  --route-table <firewall-route-table-name>
+```
+
+### Knwowledge check
+
+<img src='images/2025-09-29-04-03-03.png' width=700>
+
+## Using FRRouting as an NVA
