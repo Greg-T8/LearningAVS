@@ -47,6 +47,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [Steps to migrate virtual machines into Azure VMware Solution using Replication Assisted vMotion](#steps-to-migrate-virtual-machines-into-azure-vmware-solution-using-replication-assisted-vmotion)
   * [Configure Network Extension](#configure-network-extension)
 * [Module assessment](#module-assessment)
+* [Learn More](#learn-more)
 
 ## Introduction
 
@@ -552,3 +553,12 @@ Avoid taking snapshots of VMs during migration, whether manually or with third-p
     <img src='images/2025-09-29-03-04-42.png' width=900>
 
 ## Module assessment
+
+<img src='images/2025-09-29-03-11-59.png' width=800>
+
+## Learn More
+
+* [Azure VMware Solution documentation](https://learn.microsoft.com/en-us/azure/azure-vmware/)
+* [VMware HCX User Guide](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/vmware-hcx-user-guide-4-11.html)
+* [VMware software version requirements for HCX](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html)
+* [VMware ports and protocols for HCX](https://ports.broadcom.com/home/VMware-HCX)
