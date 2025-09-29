@@ -43,6 +43,7 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
   * [Create a service mesh](#create-a-service-mesh)
 * [Migrate virtual machine workloads into Azure VMware Solution](#migrate-virtual-machine-workloads-into-azure-vmware-solution)
   * [Migrate virtual machines](#migrate-virtual-machines)
+  * [Steps to migrate virtual machines into Azure VMware Solution using Bulk Migration](#steps-to-migrate-virtual-machines-into-azure-vmware-solution-using-bulk-migration)
 
 ## Introduction
 
@@ -447,7 +448,7 @@ To successfully establish a service mesh with Azure VMware Solution, you must me
 
     <img src='images/2025-09-27-06-12-56.png' width=800>
 
-9.  Enter a user-friendly name for the service mesh, then select **Finish**.
+9. Enter a user-friendly name for the service mesh, then select **Finish**.
 
     <img src='images/2025-09-27-06-13-14.png' width=800>
 
@@ -480,5 +481,31 @@ The VMware HCX migration interface also provides VM options to control behaviors
 
 Avoid taking snapshots of VMs during migration, whether manually or with third-party backup tools, as this can disrupt the process. Disable backups until the VM migration fully completes.
 
-
 > Try our HCX migration click-through demo. This demo shows how an organization can confidently migrate workloads from an on-premises VMware deployment to a private cloud in Microsoft Azure. [Azure VMware Solution - HCX Migration Demo](https://regale.cloud/Microsoft/play/3210/hcx-migration#/0/0)
+
+### Steps to migrate virtual machines into Azure VMware Solution using Bulk Migration
+
+1. In the on-premises HCX dashboard, go to **Services > Migration**.
+
+    <img src='images/2025-09-29-02-53-29.png' width=900>
+
+2. The **Migration Tracking** page opens. Since this is your first migration, no VMs are listed.
+3. Select **Migrate**.
+4. From the list of available virtual machines, check the names you want to migrate, then select **Add**.
+
+    <img src='images/2025-09-29-02-54-10.png' width=900>
+
+5. Configure **Transfer and Placement**, **Switchover**, and **Extended Options** as needed.
+6. To apply machine-specific settings, expand a VM under **VM for Migration** and update its Transfer, Placement, and Switchover options.
+
+    <img src='images/2025-09-29-02-56-10.png' width=900>
+
+7. Choose the destination network for each VM.
+
+    <img src='images/2025-09-29-02-56-26.png' width=900>
+
+8. After configuring networks, select **Validate** or **Go**:
+
+   * **Validate** checks the configuration.
+   * **Go** starts the migration.
+9. HCX Manager migrates the selected VMs. If validation shows warnings or errors, correct the issues and select **Go** again.
