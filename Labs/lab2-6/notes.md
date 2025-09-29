@@ -41,6 +41,11 @@ Learn how to route, control, and inspect outbound network traffic from an Azure 
   * [Deploy Azure Route Server](#deploy-azure-route-server)
   * [Enable branch-to-branch connectivity](#enable-branch-to-branch-connectivity)
   * [Knowledge check](#knowledge-check-1)
+* [Securing network communication](#securing-network-communication)
+  * [Protecting digital assets](#protecting-digital-assets)
+  * [Controlling network traffic](#controlling-network-traffic)
+  * [Firewall internet route](#firewall-internet-route)
+  * [Exercise - create and configure Azure Firewall](#exercise---create-and-configure-azure-firewall)
 
 ## Introduction
 
@@ -205,3 +210,25 @@ In the next unit, you’ll add security into this design.
 ### Knowledge check
 
 <img src='images/2025-09-29-03-52-55.png' width=700>
+
+## Securing network communication
+
+As a healthcare industry leader, Contoso must operate under strict regulatory compliance. Here are key considerations for securing network communication:
+
+### Protecting digital assets
+
+Every VM in Azure and Azure VMware Solution must be protected. All inbound and outbound traffic must be inspected for malicious activity in real time. Contoso also wants IT administrators to control access to potentially risky websites, such as certain social media platforms.
+
+### Controlling network traffic
+
+Contoso runs multiple VNets, each with several subnets. They need clear rules to define which traffic is allowed between subnets. This control ensures only approved traffic flows and overrides Azure’s default policy, which allows subnet-to-subnet communication by default.
+
+### Firewall internet route
+
+After reviewing requirements, Contoso chose **Azure Firewall**, a managed, stateful firewall service. It filters traffic across hybrid networks using ExpressRoute and VPN gateways, making it suitable for Azure VMware Solution. For outbound access, Azure Firewall requires direct internet connectivity, which is enabled by configuring rules on the subnet where it’s deployed.
+
+The next unit provides technical instructions to implement Azure Firewall and enforce these traffic controls, helping meet Contoso’s compliance and security needs.
+
+### Exercise - create and configure Azure Firewall
+
+> Try the **Secure Outbound Internet Connectivity** click-through demo. It demonstrates how to use an Azure VNet with Route Server, a Network Virtual Appliance (NVA), and Azure Firewall to inspect and manage traffic from Azure VMware Solution to the internet. [Click-through demo link](https://regale.cloud/microsoft/play/4174/secure-outbound-internet-connectivity#/0/0)
