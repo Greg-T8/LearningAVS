@@ -44,6 +44,9 @@ Plan, deploy, and configure VMware HCX with VMware vSphere to connect your on-pr
 * [Migrate virtual machine workloads into Azure VMware Solution](#migrate-virtual-machine-workloads-into-azure-vmware-solution)
   * [Migrate virtual machines](#migrate-virtual-machines)
   * [Steps to migrate virtual machines into Azure VMware Solution using Bulk Migration](#steps-to-migrate-virtual-machines-into-azure-vmware-solution-using-bulk-migration)
+  * [Steps to migrate virtual machines into Azure VMware Solution using Replication Assisted vMotion](#steps-to-migrate-virtual-machines-into-azure-vmware-solution-using-replication-assisted-vmotion)
+  * [Configure Network Extension](#configure-network-extension)
+* [Module assessment](#module-assessment)
 
 ## Introduction
 
@@ -509,3 +512,43 @@ Avoid taking snapshots of VMs during migration, whether manually or with third-p
    * **Validate** checks the configuration.
    * **Go** starts the migration.
 9. HCX Manager migrates the selected VMs. If validation shows warnings or errors, correct the issues and select **Go** again.
+
+### Steps to migrate virtual machines into Azure VMware Solution using Replication Assisted vMotion
+
+1. In the on-premises HCX dashboard, go to **Services > Migration**.
+
+    <img src='images/2025-09-29-02-57-59.png' width=900>
+
+2. Under **Select VMs for Migration**, choose the virtual machines you want and select **Add**.
+
+    <img src='images/2025-09-29-02-58-31.png' width=900>
+
+3. Fill in the required fields, then select **Replication-Assisted vMotion**.
+4. For each VM, choose the destination network, then select **Go** to start migration.
+
+    <img src='images/2025-09-29-03-00-03.png' width=900>
+
+5. Confirm the migration has started
+
+    <img src='images/2025-09-29-03-01-05.png' width=900>
+
+
+### Configure Network Extension
+
+1. In the HCX dashboard, go to **Services > Network Extension > Create a Network Extension**.
+
+    <img src='images/2025-09-29-03-01-46.png' width=900>
+
+2. Select the network you want to extend, then choose **Next**.
+
+    <img src='images/2025-09-29-03-02-19.png' width=900>
+
+3. Under **Source Network to Extend**, fill in the required fields and select **Submit**.
+
+    <img src='images/2025-09-29-03-02-52.png' width=900>
+
+4. Confirm the extension is complete by checking for a green status indicator.
+
+    <img src='images/2025-09-29-03-04-42.png' width=900>
+
+## Module assessment
