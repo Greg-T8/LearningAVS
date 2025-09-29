@@ -36,6 +36,11 @@ Learn how to route, control, and inspect outbound network traffic from an Azure 
   * [Network paths in Azure VMware Solution private cloud](#network-paths-in-azure-vmware-solution-private-cloud)
   * [Network paths in Azure](#network-paths-in-azure)
   * [Enabling network path exchange between Azure VMware Solution and Azure](#enabling-network-path-exchange-between-azure-vmware-solution-and-azure)
+* [Exercise - create and configure Azure Route Server](#exercise---create-and-configure-azure-route-server)
+  * [Create Resource Group \& Virtual Network](#create-resource-group--virtual-network)
+  * [Deploy Azure Route Server](#deploy-azure-route-server)
+  * [Enable branch-to-branch connectivity](#enable-branch-to-branch-connectivity)
+  * [Knowledge check](#knowledge-check-1)
 
 ## Introduction
 
@@ -129,3 +134,74 @@ Contoso wants to exchange routes between multiple sources, including the on-prem
 Azure enables BGP route exchange with **Azure Route Server (ARS)**. ARS can set the NVA’s private IPs as BGP peers, share its routes with the NVA, and learn routes from it. ARS also supports branch-to-branch connectivity with the ExpressRoute gateway, which links to Azure VMware Solution. This allows ARS to exchange routes with both management and workload segments of the private cloud.
 
 You now have a foundation for understanding route exchange. The next unit will guide you through implementing it.
+
+## Exercise - create and configure Azure Route Server
+
+The following steps show how to create and configure Azure Route Server (ARS) using the Azure CLI. The same can be done using the Azure portal, PowerShell, or Terraform.
+
+### Create Resource Group & Virtual Network
+
+It’s recommended to deploy Azure VMware Solution as part of an **Azure Landing Zone Architecture**. In this setup, the AVS private cloud resides in a separate subscription, while networking services such as ARS, ExpressRoute Gateway, and Azure Firewall are deployed in a **Landing Zone connectivity subscription**.
+
+Start by creating the required resource group, virtual network, subnet, and public IP:
+
+```bash
+az group create -l <your-preferred-azure-region> -n <resource-group-name>
+
+az network vnet create \
+  -n <vnet-name> \
+  -g <resource-group-name> \
+  --address-prefix 10.0.0.0/16
+
+az network vnet subnet create \
+  -n RouteServerSubnet \
+  -g <resource-group-name> \
+  --vnet-name <vnet-name> \
+  --address-prefix 10.0.0.0/24
+
+az network public-ip create \
+  -n <name-for-route-server-pip> \
+  -g <resource-group-name> \
+  --version IPv4 \
+  --sku Standard
+
+$ars_subnet_id=$(az network vnet subnet show \
+  --name RouteServerSubnet \
+  --resource-group <resource-group-name> \
+  --vnet-name <vnet-name> \
+  --query id -o tsv)
+```
+
+### Deploy Azure Route Server
+
+Azure Route Server uses BGP to exchange routes between an NVA and the ExpressRoute Gateway that connects Azure VMware Solution. Deploy ARS with:
+
+```bash
+az network routeserver create \
+  --name <routeserver-name> \
+  --resource-group <resource-group-name> \
+  --hosted-subnet $ars_subnet_id \
+  --public-ip-address <name-for-route-server-pip>
+```
+
+### Enable branch-to-branch connectivity
+
+Finally, enable branch-to-branch traffic to complete the route exchange setup:
+
+```bash
+az network routeserver update \
+  --name <routeserver-name> \
+  --resource-group <resource-group-name> \
+  --allow-b2b-traffic true
+```
+
+You’ve now completed two key tasks:
+
+1. Configured Azure VMware Solution private cloud for outbound internet connectivity.
+2. Set up a route exchange mechanism between ARS and Azure VMware Solution.
+
+In the next unit, you’ll add security into this design.
+
+### Knowledge check
+
+<img src='images/2025-09-29-03-52-55.png' width=700>
