@@ -30,15 +30,14 @@ This learning path is designed to equip Azure engineers with the skills needed t
 - [ ] [Lab 2-3: Set up Azure Migrate for server migration](https://learn.microsoft.com/en-us/training/modules/m365-azure-migrate-set-up/) (0.5hrs)
 - [ ] [Lab 2-4: Design network solutions](https://learn.microsoft.com/en-us/training/modules/design-network-solutions/) (1hr)
 - [ ] [Lab 2-5: Understand Azure NetApp Files essentials](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-essentials/) (1hr)
-- [ ] [Lab 2-6: Secure outbound internet connectivity for Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-vmware-solution/) (1.5hrs) - added 9/23/25
+- [ ] [Lab 2-6: Secure outbound internet connectivity for Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-vmware-solution/) (1.5hrs) - in progress 9/29/25
 
 ## Azure VMware Solution - Architect
 
 This learning path is designed to prepare architects to lead the end-to-end design and strategic adoption of Azure VMware Solution (AVS). It builds upon Azure VMWare Solution - Engineer knowledge with advanced topics such as secure landing zone architecture, multi-region and multi-subscription design, and integration with enterprise governance frameworks. Architects will learn how to align AVS deployments with business continuity, modernization, and cost optimization goals—positioning AVS as a key pillar in enterprise cloud strategy.
 
-- [ ] [Lab 3-1: Run VMware resources on Azure VMware Solution](./labs/lab3-1/notes.md) (4 hrs) - in progress
 - [ ] [Lab 3-2: Using Azure NetApp Files with Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-with-vmware-solution/) (0.5hrs)
-- [ ] [Lab 3-3: AZ-700: Design and Implement Azure Network Solutions](https://learn.microsoft.com/en-us/training/paths/design-implement-microsoft-azure-networking-solutions-az-700/) (7 hrs)
+- [ ] [Lab 3-2: AZ-700: Design and Implement Azure Network Solutions](https://learn.microsoft.com/en-us/training/paths/design-implement-microsoft-azure-networking-solutions-az-700/) (7 hrs)
 
 ## References
 
