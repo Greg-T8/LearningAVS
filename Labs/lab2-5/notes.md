@@ -37,6 +37,18 @@ By the end of this module, you will be able to:
   * [Determine if a directory is approaching the limit size](#determine-if-a-directory-is-approaching-the-limit-size)
   * [`maxfiles` limits in Azure NetApp Files](#maxfiles-limits-in-azure-netapp-files)
 * [Azure NetApp Files network planning](#azure-netapp-files-network-planning)
+  * [Network features](#network-features)
+  * [Virtual networks for Azure NetApp Files volumes](#virtual-networks-for-azure-netapp-files-volumes)
+    * [Azure virtual networks](#azure-virtual-networks)
+    * [Subnets](#subnets)
+    * [User-defined routes and network security groups](#user-defined-routes-and-network-security-groups)
+  * [Azure native environments](#azure-native-environments)
+    * [Local VNet](#local-vnet)
+    * [VNet peering](#vnet-peering)
+    * [Global or cross-region VNet peering](#global-or-cross-region-vnet-peering)
+  * [Hybrid environments](#hybrid-environments)
+* [Monitor Azure NetApp Files](#monitor-azure-netapp-files)
+* [Monitor Azure NetApp Files](#monitor-azure-netapp-files-1)
 
 ## Introduction
 
@@ -192,3 +204,95 @@ For data protection volumes, you can’t set **maxfiles** limits through a quota
 ## Azure NetApp Files network planning
 
 Network architecture planning is essential when designing application infrastructure. This unit guides you in creating a network design that enables your workloads to fully leverage the features and performance of Azure NetApp Files.
+
+### Network features
+
+Azure NetApp Files volumes must reside in a **delegated subnet** within your Azure Virtual Network. These volumes can be accessed directly from Azure via VNet peering or from on-premises through a Virtual Network Gateway (ExpressRoute or VPN). The delegated subnet is dedicated to Azure NetApp Files and has no internet connectivity.
+
+In supported regions, volumes can use either **Standard** or **Basic** network features:
+
+* **Standard**: Provides higher IP limits, support for NSGs, user-defined routes, and broader connectivity patterns.
+* **Basic**: Offers limited IP scaling and selective connectivity patterns, with constraints described in the considerations.
+
+You can switch between Basic and Standard features, though with some restrictions.
+
+<img src='images/2025-09-30-03-43-28.png' width=800>
+
+For details, see the [Guidelines for Azure NetApp Files network planning](https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies).
+
+### Virtual networks for Azure NetApp Files volumes
+
+This section explains concepts that help you with virtual network planning.
+
+#### Azure virtual networks
+
+Before provisioning an Azure NetApp Files volume, you need to create an Azure virtual network (VNet) or use one that already exists in the same subscription. The VNet defines the network boundary of the volume.
+
+#### Subnets
+
+Subnets divide a virtual network into address spaces that Azure resources can use. When you create an Azure NetApp Files instance, it must be placed in a **delegated subnet**. This subnet is configured with permissions specific to Azure NetApp Files. How nodes connect to the service depends on their location—whether they’re within Azure or external (such as on-premises).
+
+#### User-defined routes and network security groups
+
+If a subnet contains volumes using both **Standard** and **Basic** network features, only the volumes with **Standard** features support user-defined routes (UDRs) and network security groups (NSGs) applied at the delegated subnet level.
+
+**Note:** NSGs can’t be associated at the network interface level for Azure NetApp Files network interfaces.
+
+### Azure native environments
+
+We cover four virtual network scenarios: local VNets, peered VNets, VNets for cross-region replication, and hybrid environments. The following diagram applies to both the local and peered VNet scenarios for an Azure native environment.
+
+<img src='images/2025-09-30-03-47-47.png' width=900>
+
+#### Local VNet
+
+Resources running on Azure VMs within the same virtual network as the delegated subnet can directly connect to Azure NetApp Files. For example, if **VM 1** and **Volume 1** are both in **Virtual Network 1**, then VM 1 has direct access to that volume.
+
+#### VNet peering
+
+When multiple VNets in the same region need to share resources, you can enable **VNet peering** for secure connectivity over Azure’s backbone.
+
+For example, if **VNet 2** and **VNet 3** are peered, then VM 1 can reach VM 2 or Volume 2, and VM 2 can reach VM 1 or Volume 1.
+
+However, VNet peering doesn’t support transit routing. If **VNet 1** is peered with **VNet 2**, and **VNet 2** is peered with **VNet 3**, resources in VNet 1 can access VNet 2 but not VNet 3 unless VNet 1 and VNet 3 are explicitly peered. In this case, VM 3 can connect to Volume 1, but VM 4 can’t connect to Volume 2 because the spoke VNets aren’t directly peered.
+
+#### Global or cross-region VNet peering
+
+Resources in a peered virtual network can connect to Azure NetApp Files volumes in the delegated subnet of the paired VNet. For example, if **VNet 1** and **VNet 2** are peered, **VM 2** in VNet 2 can access **Volume 1** in VNet 1.
+
+With **Standard network features**, cross-region and global VNet peering are supported. This enables VMs in one region to mount volumes in another region. In the diagram, **VNet 4** in Region 2 hosts a delegated subnet with a volume that **VM 5** can mount. Similarly, **VM 2** in Region 1 can connect to **Volume 3** in Region 2, and **VM 5** in Region 2 can connect to **Volume 2** in Region 1.
+
+<img src='images/2025-09-30-03-50-44.png' width=900>
+
+### Hybrid environments
+
+On-premises resources can connect to Azure NetApp Files if the Azure VNet hosting the delegated subnet is linked through **VPN** or **ExpressRoute**. For example, if the on-premises network connects to **VNet 1** using a VPN gateway, applications can access file storage in that subnet.
+
+In a **hybrid hub-spoke topology**, the hub VNet provides centralized connectivity to on-premises, while spoke VNets are peered with the hub to isolate workloads. Connectivity options include:
+
+* On-premises VMs (VM1, VM2) → **Volume 1** in the hub via VPN or ExpressRoute
+* On-premises VMs (VM1, VM2) → **Volume 2** or **Volume 3** in spokes via VPN + regional peering
+* VM3 in the hub → **Volume 2** in Spoke 1 and **Volume 3** in Spoke 2
+* VM4 in Spoke 1 and VM5 in Spoke 2 → **Volume 1** in the hub
+* VM4 in Spoke 1 → can’t connect to **Volume 3** in Spoke 2; VM5 in Spoke 2 → can’t connect to **Volume 2** in Spoke 1 (no transit routing over peering)
+
+**Important:** If a spoke VNet has its own gateway, on-premises connectivity to Azure NetApp Files volumes in that spoke will prefer the spoke gateway over the hub gateway. In this case, only machines connecting through the spoke gateway can reach the volume.
+
+<img src='images/2025-09-30-03-51-23.png' width=900>
+
+## Monitor Azure NetApp Files
+
+[Azure NetApp Files Capacity Manager (ANCapacityManager)](https://github.com/ANFTechTeam/ANFCapacityManager)
+
+You should monitor the capacity, activity, service health, and various metrics of your Azure NetApp Files deployment. These tips help you monitor Azure NetApp Files.
+
+| Monitor                             | Description                                                                                                                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Azure Activity Log**              | Provides insight into subscription-level events, such as resource modifications or VM starts. You can view logs in the Azure portal, with PowerShell or CLI, and send them to other destinations. |
+| **Azure NetApp Files metrics**      | Offers metrics on allocated storage, actual usage, IOPS, and latency. These help analyze usage patterns and performance. Metrics can be viewed at the capacity pool or volume level.              |
+| **Azure Service Health**            | Keeps you updated on the health of your environment. Provides personalized views of Azure services in use, planned maintenance, and health advisories, plus tools to manage alerts.               |
+| **Capacity utilization monitoring** | Tracks used and available capacity at the VM level. Capacity can be checked using Windows or Linux clients, and alerts can be configured with **ANFCapacityManager**.                             |
+
+## Monitor Azure NetApp Files
+
+Azure NetApp Files provides metrics on allocated storage, actual storage usage, volume IOPS, and latency. By analyzing these metrics, you can gain a better understanding of the usage pattern and volume performance of your NetApp accounts.
