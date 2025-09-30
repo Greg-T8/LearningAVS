@@ -51,6 +51,11 @@ Learn how to route, control, and inspect outbound network traffic from an Azure 
   * [Associate the route table](#associate-the-route-table)
   * [Knwowledge check](#knwowledge-check)
 * [Using FRRouting as an NVA](#using-frrouting-as-an-nva)
+  * [Operational Processes](#operational-processes)
+  * [Skills](#skills)
+  * [Open-source](#open-source)
+* [Exercise - configure custom router](#exercise---configure-custom-router)
+  * [Configure FRR routing on the NVA](#configure-frr-routing-on-the-nva)
 
 ## Introduction
 
@@ -316,3 +321,106 @@ az network vnet subnet update \
 <img src='images/2025-09-29-04-03-03.png' width=700>
 
 ## Using FRRouting as an NVA
+
+You will continue using Network Virtual Appliances (NVAs) to generate the default route, just as in your on-premises setup. This section outlines the key factors to consider when maintaining this approach.
+
+### Operational Processes
+
+NVAs are part of Contoso's Standard Operating Procedures. Monitoring and management depend on NVA features like traffic rules and network segmentation. Using the same processes and features simplifies migration from on-premises to Azure.
+
+### Skills
+
+Contoso's IT team has extensive experience with NVAs. Since NVAs can be deployed and managed in Azure, the team can reuse existing skills instead of learning a new Azure service.
+
+### Open-source
+
+NVAs can be proprietary or open source. Proprietary NVAs involve extra costs but come with vendor support. Open-source NVAs are community-driven, provide source code access, and rely on community support. At Contoso, an open-source NVA is used, offering flexibility with open protocols like BGP. NVAs also integrate easily with VMs and Azure networks while supporting default route generation.
+
+Contoso relies on FRRouting (FRR), a free, open-source routing implementation, for these reasons.
+
+In the next unit, you will configure FRR in Azure to generate the default route.
+
+## Exercise - configure custom router
+
+Use the following instructions to configure the infrastructure for FRR and generate the default route:
+
+```bash
+az network vnet subnet create \
+    -n <NVA-Subnet-name> \
+    -g <resource-group-name> \
+    --vnet-name <vnet-name> \
+    --address-prefix 10.0.2.0/24
+
+az network nic create \
+    -g <resource-group-name> \
+    --vnet-name <vnet-name> \
+    --subnet <NVA-Subnet-name> \
+    -n <NVA-nic-name>
+
+az vm availability-set create \
+    --name <nva-availability-set-name> \
+    --resource-group <resource-group-name> \
+    --location <your-preferred-azure-region>
+
+az vm create \
+    --name <nva-vm-name> \
+    --resource-group <resource-group-name> \
+    --location <your-preferred-azure-region> \
+    --image OpenLogic:CentOS:8_5:8.5.2022012100 \
+    --size Standard_D1_v2 \
+    --availability-set <nva-availability-set-name> \
+    --authentication-type password \
+    --admin-username <vm-admin-user-name> \
+    --admin-password <vm-admin-username-password> \
+    --storage-sku Standard_LRS \
+    --nics <NVA-nic-name>
+```
+
+### Configure FRR routing on the NVA
+
+Now, you're going to configure the FRR software.
+
+1. Update the routeServerSubnetPrefix and bgpNvaSubnetGateway variables in the following script.
+
+    ```bash
+    # IP prefix of the RouteServerSubnet in the Firewall VNet.
+    routeServerSubnetPrefix="<azure-route-server-subnet-prefix>"
+
+    # First IP of the subnet attached to eth0 (gateway).
+    bgpNvaSubnetGateway="<nva-azure-subnet-first-ip-address>"
+
+    # Install FRR
+    sudo dnf install frr -y
+
+    # Enable bgpd and prepare config
+    sudo sed -i 's/bgpd=no/bgpd=yes/g' /etc/frr/daemons
+    sudo touch /etc/frr/bgpd.conf
+    sudo chown frr /etc/frr/bgpd.conf
+    sudo chmod 640 /etc/frr/bgpd.conf
+
+    # Start FRR
+    sudo systemctl enable frr --now
+
+    # Add static route for Azure Route Server reachability (transient)
+    sudo ip route add $routeServerSubnetPrefix via $bgpNvaSubnetGateway dev eth0
+
+    # To persist on CentOS, add to /etc/sysconfig/network-scripts/route-eth0
+    # e.g.,: <azure-route-server-subnet-prefix> via <nva-azure-subnet-first-ip-address> dev eth0
+    ```
+
+2. Copy the edited script.
+
+3. Sign in to the NVA VM shell.
+
+4. Paste the script as plain text (Ctrl-Shift-V) and run it.
+
+5. Confirm no errors appear at completion. Capture a screenshot showing success.
+
+      <img src='images/2025-09-30-02-58-54.png' width=800>
+
+
+6. Run **sudo vtysh**.
+
+7. Verify the FRR shell starts. Capture a screenshot showing the sudo vtysh execution.
+
+      <img src='images/2025-09-30-02-59-30.png' width=400>
