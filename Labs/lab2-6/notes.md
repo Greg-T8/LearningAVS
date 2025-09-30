@@ -56,6 +56,19 @@ Learn how to route, control, and inspect outbound network traffic from an Azure 
   * [Open-source](#open-source)
 * [Exercise - configure custom router](#exercise---configure-custom-router)
   * [Configure FRR routing on the NVA](#configure-frr-routing-on-the-nva)
+  * [Configure BGP neighbor and default route for the NVA](#configure-bgp-neighbor-and-default-route-for-the-nva)
+  * [Configure Peering with Azure Route Server](#configure-peering-with-azure-route-server)
+  * [Knowledge check](#knowledge-check-2)
+* [Network Security Management](#network-security-management)
+  * [Block by default](#block-by-default)
+  * [Outbound network rules](#outbound-network-rules)
+  * [Firewall rules for AVS](#firewall-rules-for-avs)
+* [Exercise - establish outbound internet connectivity](#exercise---establish-outbound-internet-connectivity)
+  * [Capture Azure VMware Solution workload segment address space](#capture-azure-vmware-solution-workload-segment-address-space)
+  * [Configure Azure Firewall Rule for Azure VMware Solution workload network segment](#configure-azure-firewall-rule-for-azure-vmware-solution-workload-network-segment)
+  * [Test outbound internet connectivity from a VM in Azure VMware Solution workload network segment](#test-outbound-internet-connectivity-from-a-vm-in-azure-vmware-solution-workload-network-segment)
+  * [Knowledge check](#knowledge-check-3)
+* [References](#references)
 
 ## Introduction
 
@@ -418,9 +431,162 @@ Now, you're going to configure the FRR software.
 
       <img src='images/2025-09-30-02-58-54.png' width=800>
 
-
 6. Run **sudo vtysh**.
 
 7. Verify the FRR shell starts. Capture a screenshot showing the sudo vtysh execution.
 
       <img src='images/2025-09-30-02-59-30.png' width=400>
+
+### Configure BGP neighbor and default route for the NVA
+
+1. Configure the FRR NVA to peer with Azure Route Server and advertise a default route. Update these variables first:
+
+    1. \<Firewall Private IP address\>
+    2. \<IP address of Route Server instance #0\>
+    3. \<IP address of Route Server instance #1\>
+
+    ```bash
+    conf term
+    !
+    route-map SET-NEXT-HOP-FW permit 10
+     set ip next-hop <Firewall Private IP address>
+    exit
+    !
+    router bgp 65111
+     no bgp ebgp-requires-policy
+     neighbor <IP address of Route Server instance #0> remote-as 65515
+     neighbor <IP address of Route Server instance #0> ebgp-multihop 2
+     neighbor <IP address of Route Server instance #1> remote-as 65515
+     neighbor <IP address of Route Server instance #1> ebgp-multihop 2
+     network 0.0.0.0/0
+    !
+    address-family ipv4 unicast
+     neighbor <IP address of Route Server instance #0> route-map SET-NEXT-HOP-FW out
+     neighbor <IP address of Route Server instance #1> route-map SET-NEXT-HOP-FW out
+    exit-address-family
+    !
+    exit
+    !
+    exit
+    !
+    write file
+    !
+    ```
+
+2. Sign in to the FRR shell (sudo vtysh).
+3. Paste the script with updated variables and run it.
+4. Run `show ip bgp` and confirm only the default route is present.
+5. Run `show ip bgp sum` and confirm no BGP sessions are established.
+
+    <img src='images/2025-09-30-03-03-50.png' width=600>
+
+### Configure Peering with Azure Route Server
+
+1. Create BGP peering with Azure Route Server.
+
+    ```bash
+    az network routeserver peering create \
+      --name <nva-vm-name> \
+      --peer-ip <private-ip-of-nva-vm-name> \
+      --peer-asn <asn-value-other-than-65515-65520> \
+      --routeserver <routeserver-name> \
+      --resource-group <resource-group-name>
+    ```
+
+2. Enable branch-to-branch on Route Server.
+
+    ```bash
+    az network routeserver update \
+      --name <routeserver-name> \
+      --resource-group <resource-group-name> \
+      --allow-b2b-traffic true
+    ```
+
+3. Sign in to FRR shell.
+
+4. Run `show ip bgp` and confirm routes are learned from Azure Route Server. Azure Route Server should appear as next hop for AVS networks.
+
+    <img src='images/2025-09-30-03-05-40.png' width=600>
+
+5. In **Azure portal**, open the **Route Table** linked to the Azure Firewall subnet. Verify the **ToInternet** route points to **Internet** as next hop.
+
+    <img src='images/2025-09-30-03-06-09.png' width=400>
+
+At this point, AVS outbound traffic is secured via Azure Firewall. Azure Route Server exchanges routes with the NVA, and FRR injects the default route with the firewall as next hop.
+
+### Knowledge check
+
+<img src='images/2025-09-30-03-10-31.png' width=700>
+
+## Network Security Management
+
+In this unit, you configure fine-grained rules that allow Azure VMware Solution (AVS) private cloud to access the internet.
+
+### Block by default
+
+Azure Firewall follows a "block by default" design. Any traffic routed through it is blocked unless explicitly allowed. You have already routed AVS traffic through Azure Firewall, but no traffic is permitted yet. This principle forms the basis for applying precise network rules.
+
+### Outbound network rules
+
+Some traffic must bypass the default block. Azure Firewall supports two approaches:
+
+* **Classic rules:** Define rules per firewall instance using protocol, source, destination, and port. Suitable for smaller environments, but not scalable across multiple firewalls.
+* **Firewall policy:** Define rules once and apply them to multiple instances. Recommended for enterprise deployments due to easier management and scalability.
+
+### Firewall rules for AVS
+
+In this unit, you will use classic rules instead of firewall policies. Rules for AVS include workload segment IP ranges, protocol, and port. Set **Destination type** to **IP Address**. For **Destination address space**, use `*`. For **Destination ports**, specify `*` or limit to required ports such as 80 or 443.
+
+**Screenshot:** Azure Firewall network rule with "IP Addresses" highlighted for source and destination fields.
+
+<img src='images/2025-09-30-03-13-29.png' width=600>
+
+## Exercise - establish outbound internet connectivity
+
+This unit covers implementing network controls with Azure Firewall and testing them from a VM in the Azure VMware Solution (AVS) workload segment.
+
+### Capture Azure VMware Solution workload segment address space
+
+Use the following command to get the workload segment address space from Azure VMware Solution private cloud:
+
+```bash
+az vmware workload-network segment show \
+  --resource-group <resource-group-name> \
+  --private-cloud <avs-private-cloud-name>
+```
+
+### Configure Azure Firewall Rule for Azure VMware Solution workload network segment
+
+Use the following command to configure Firewall rule for workload segment:
+
+```bash
+az network firewall network-rule create \
+  --collection-name <firewall-rule-collection-name> \
+  --destination-addresses <*-or-specific-addresses> \
+  --destination-ports <*-or-specific-ports> \
+  --firewall-name <name-of-firewall> \
+  --name <firewall-rule-name> \
+  --protocols <*-or-specific-protocols> \
+  --resource-group <resource-group-name> \
+  --priority <priority-value> \
+  --source-addresses <avs-workload-segment-address-space> \
+  --action Allow
+```
+
+### Test outbound internet connectivity from a VM in Azure VMware Solution workload network segment
+
+1. Sign in the VM in Azure VMware Solution workload network segment.
+2. Navigate to any public URL from the VM. Any public URL should be accessible from browser.
+
+### Knowledge check
+
+<img src='images/2025-09-30-03-16-08.png' width=700>
+
+## References
+
+* [Azure Landing Zone Architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/enterprise-scale-landing-zone#architecture)
+* [Azure Landing Zone connectivity subscription](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
+* [Border Gateway Protocol](https://en.wikipedia.org/wiki/Border_Gateway_Protocol)
+* [FRRouting](https://frrouting.org/)
+* [AVS Landing Zone Accelerator - Reference Architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/enterprise-scale-landing-zone)
+* [AVS Landing Zone Accelerator - Reference Implementation](https://github.com/Azure/Enterprise-Scale-for-AVS)
