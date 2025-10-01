@@ -39,6 +39,18 @@ This learning path is designed to prepare architects to lead the end-to-end desi
 - [ ] [Lab 3-2: Using Azure NetApp Files with Azure VMware Solution](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files-with-vmware-solution/) (0.5hrs)
 - [ ] [Lab 3-2: AZ-700: Design and Implement Azure Network Solutions](https://learn.microsoft.com/en-us/training/paths/design-implement-microsoft-azure-networking-solutions-az-700/) (7 hrs)
 
+## Azure Arc for Servers
+
+This is a custom learning path I created to quickly ramp up on Azure Arc, specifically Azure Arc for Servers.
+
+- [ ] [Lab 4-1: Onboarding a Server]()
+- [ ] [Lab 4-2: Azure Policy and Guest Configuration](tbd)
+- [ ] [Lab 4-3: Security with Defender for Cloud](tbd)
+- [ ] [Lab 4-4: Monitoring and Log Analytics](tbd)
+- [ ] [Lab 4-5: Update Management and Inventory](tbd)
+- [ ] [Lab 4-6: Extensions](tbd)
+- [ ] [Lab 4-7: At-Scale Scenarios](tbd)
+
 ## References
 
 - [Azure VMware Solution Documentation](https://learn.microsoft.com/en-us/azure/azure-vmware/)
