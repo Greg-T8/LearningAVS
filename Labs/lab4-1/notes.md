@@ -6,6 +6,16 @@
 * Register the machine with your subscription and confirm it shows in the Azure Portal.
 * Explore metadata: resource group, tags, location, identity.
 
+<!-- omit in toc -->
+## Contents
+
+* [References](#references)
+* [Generate installation script](#generate-installation-script)
+* [Install the agent using the script](#install-the-agent-using-the-script)
+  * [Windows agent](#windows-agent)
+  * [Linux agent](#linux-agent)
+* [Verify connection with Azure Arc](#verify-connection-with-azure-arc)
+
 ## References
 
 * [Quickstart: Connect a machine to Arc-enabled servers](https://learn.microsoft.com/en-us/azure/azure-arc/servers/quick-enable-hybrid-vm)
@@ -111,4 +121,4 @@
 
    <img src='images/2025-10-01-04-00-13.png' width=800>
 
-Suggestion: If the status is not connected, check agent logs on the server, verify network connectivity, and confirm that the correct subscription and resource group were selected during onboarding.
+**Suggestion:** If the status is not connected, check agent logs on the server, verify network connectivity, and confirm that the correct subscription and resource group were selected during onboarding.
