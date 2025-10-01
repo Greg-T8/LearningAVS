@@ -99,3 +99,16 @@
     ```
 
 **Suggestion:** Make the script executable first if needed by running `chmod +x ~/Install_linux_azcmagent.sh`. Also verify that outbound connectivity to Azure endpoints is allowed (directly or via proxy).
+
+## Verify connection with Azure Arc
+
+1. Open the Azure portal and go to the **Hybrid machines** page.
+   Tip: You can also search for **Machines - Azure Arc** in the portal.
+
+2. Locate your server in the list.
+
+3. Confirm that the machine shows a **Connected** status.
+
+   <img src='images/2025-10-01-04-00-13.png' width=800>
+
+Suggestion: If the status is not connected, check agent logs on the server, verify network connectivity, and confirm that the correct subscription and resource group were selected during onboarding.
