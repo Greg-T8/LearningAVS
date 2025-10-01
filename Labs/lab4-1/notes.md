@@ -16,30 +16,86 @@
 
    **Tip:** You can also go to **Servers - Azure Arc** and select **+Add**.
 
-    <img src='images/2025-10-01-03-23-30.png' width=900>
+    <img src='images/2025-10-01-03-23-30.png' width=700>
 
 2. On **Basics**:
-  a. Select the subscription and resource group for the machine.
-  b. Choose the **Region** to store server metadata.
-  c. Select the server **Operating system**.
-  d. Under **Connectivity method**:
-      * Choose **Public endpoint** or **Private endpoint**.
-      * For **Private endpoint**, pick or create a private link scope.
-      * To use a proxy, enter the URL in the format http://<proxyURL>:<proxyport>.
-      * If using **Public endpoint** with **Azure Arc Gateway**, select or create a Gateway.
-  e. Select **Next**.
+    * a. Select the subscription and resource group for the machine.
+    * b. Choose the **Region** to store server metadata.
+    * c. Select the server **Operating system**.
+    * d. Under **Connectivity method**:
+        * Choose **Public endpoint** or **Private endpoint**.
+        * For **Private endpoint**, pick or create a private link scope.
+        * To use a proxy, enter the URL in the format http://<proxyURL>:<proxyport>.
+        * If using **Public endpoint** with **Azure Arc Gateway**, select or create a Gateway.
+    * e. Select **Next**.
+    <br><br>
+    <img src='images/2025-10-01-03-43-51.png' width=800>
 
 3. On **Tags**:
-   a. Review **Physical location** tags and enter values.
-   b. Add any **Custom tags**.
-   c. Select **Next**.
+   * a. Review **Physical location** tags and enter values.
+   * b. Add any **Custom tags**.
+   * c. Select **Next**.
+  <br><br>
+   <img src='images/2025-10-01-03-45-55.png' width=400>
 
 4. In **Download and run script**:
-   a. Review the script; use **Previous** to adjust settings if needed.
-   b. Select **Download** to save the script file.
+   * a. Review the script; use **Previous** to adjust settings if needed.
+   * b. Select **Download** to save the script file.
 
-Suggestions:
-• Confirm required ports and firewall rules for your chosen connectivity method.
-• Save the script with your CM tool (e.g., Intune, SCCM, Ansible) for consistent rollout.
-• Store proxy and credentials in a secure secret store rather than hardcoding.
-• Tag consistently (owner, environment, location) to simplify governance and cost reporting.
+    See [OnboardingScript.ps1](./scripts/OnboardingScript.ps1)
+
+## Install the agent using the script
+
+1. Copy the downloaded script to the target server.
+
+2. Run the script with administrative privileges.
+
+3. The script will:
+   • Download the Connected Machine agent from Microsoft Download Center.
+   • Install the agent on the server.
+   • Create the Azure Arc–enabled server resource.
+   • Link the resource with the agent.
+
+4. Follow the instructions specific to your server’s operating system to complete the onboarding process.
+
+### Windows agent
+
+1. Log in to the Windows server.
+
+2. Open a 64-bit PowerShell command prompt with administrator privileges.
+
+3. Navigate to the folder or network share containing the script.
+
+4. Run the script by executing:
+
+```powershell
+./OnboardingScript.ps1
+```
+
+**Output:**
+
+<img src='images/2025-10-01-03-55-32.png' width=700>
+
+**Note:** The script does prompt for interactive authentication
+
+<img src='images/2025-10-01-03-55-55.png' width=500>
+
+### Linux agent
+
+1. Log in to the Linux server.
+
+2. Run the installation script depending on your connectivity setup:
+
+* For servers with direct access to Azure:
+
+    ```bash
+    bash ~/Install_linux_azcmagent.sh
+    ```
+
+* For servers using a proxy:
+
+    ```bash
+    bash ~/Install_linux_azcmagent.sh --proxy "{proxy-url}:{proxy-port}"
+    ```
+
+**Suggestion:** Make the script executable first if needed by running `chmod +x ~/Install_linux_azcmagent.sh`. Also verify that outbound connectivity to Azure endpoints is allowed (directly or via proxy).
