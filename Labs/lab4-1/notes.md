@@ -213,4 +213,4 @@ azcmagent.exe connect --config C:\arc\connect.json
 ### Notes & tips
 
 * You can also pass a short-lived **access token** with `--access-token` if your automation already obtains one (e.g., `Get-AzAccessToken`).
-* The onboarding credential is **only** needed during `connect`; once connected, the server stays Arc-registered even if that SP secret/cert expires—so rotate it freely. ([Microsoft Learn][5])
+* The onboarding credential is **only** needed during `connect`; once connected, the server stays Arc-registered even if that SP secret/cert expires—so rotate it freely.
