@@ -15,6 +15,10 @@
   * [Windows agent](#windows-agent)
   * [Linux agent](#linux-agent)
 * [Verify connection with Azure Arc](#verify-connection-with-azure-arc)
+* [Troubleshooting](#troubleshooting)
+  * [Automating -The quick path](#automating--the-quick-path)
+  * [Automating at scale](#automating-at-scale)
+  * [Notes \& tips](#notes--tips)
 
 ## References
 
@@ -122,3 +126,91 @@
    <img src='images/2025-10-01-04-00-13.png' width=800>
 
 **Suggestion:** If the status is not connected, check agent logs on the server, verify network connectivity, and confirm that the correct subscription and resource group were selected during onboarding.
+
+## Troubleshooting
+
+The script runs the following command which connects the machine to Azure Arc. This command requires an interactive login.
+
+```pwsh
+& "$env:ProgramW6432\AzureConnectedMachineAgent\azcmagent.exe" connect `
+  --resource-group "$env:RESOURCE_GROUP" `
+  --tenant-id "$env:TENANT_ID" `
+  --location "$env:LOCATION" `
+  --subscription-id "$env:SUBSCRIPTION_ID" `
+  --cloud "$env:CLOUD" `
+  --gateway-id "$env:GATEWAY_ID" `
+  --tags 'Datacenter=GregsHome,City=Austin,StateOrDistrict=TX,CountryOrRegion=USA' `
+  --correlation-id "$env:CORRELATION_ID";
+```
+
+Use options with the `connect` subcommand to automate onboarding without interactive login.
+
+<img src='images/2025-10-01-04-23-00.png' width=800>
+
+See the following options for automating this process:
+
+Use a service principal so `azcmagent.exe connect` can run **non-interactively** (no browser/device-code prompt).
+
+### Automating -The quick path
+
+1. **Create a least-privileged SP**
+
+    * In Azure, create a service principal and grant it **Azure Connected Machine Onboarding** at the *subscription* or (better) the target *resource group* scope. 
+
+2. **Run `azcmagent.exe connect` with SP credentials**
+
+    ```powershell
+    # Secret-based (simple)
+    azcmagent.exe connect `
+      --subscription-id "<sub-id>" `
+      --resource-group "<rg-name>" `
+      --location "<azure-region>" `
+      --service-principal-id "<appId>" `
+      --service-principal-secret "<secret>" `
+      --tenant-id "<tenant-id>"
+    ```
+
+or (preferred) **certificate-based**:
+
+  ```powershell
+  azcmagent.exe connect `
+    --subscription-id "<sub-id>" `
+    --resource-group "<rg-name>" `
+    --location "<azure-region>" `
+    --service-principal-id "<appId>" `
+    --service-principal-cert "C:\path\sp-cert.pem" `
+    --tenant-id "<tenant-id>"
+  ```
+
+(Password-protected PFX/PEM aren’t supported by the agent.)
+
+3. **Avoid putting secrets on the command line**
+
+   Place inputs in a small config file and pass `--config`:
+
+    ```json
+    {
+      "subscription-id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "resource-group": "Arc-Hybrid",
+      "location": "eastus",
+      "service-principal-id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "service-principal-secret": "YOUR_SECRET",
+      "tenant-id": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
+    }
+    ```
+
+```powershell
+azcmagent.exe connect --config C:\arc\connect.json
+```
+
+(The CLI supports config files to keep secrets out of console logs.) 
+
+### Automating at scale
+
+* **Portal-generated script** (downloads agent and connects with your parameters) — good template for GPO/SCCM/Intune.
+* **Bulk onboarding with SP** (Microsoft’s “at scale” doc).
+
+### Notes & tips
+
+* You can also pass a short-lived **access token** with `--access-token` if your automation already obtains one (e.g., `Get-AzAccessToken`).
+* The onboarding credential is **only** needed during `connect`; once connected, the server stays Arc-registered even if that SP secret/cert expires—so rotate it freely. ([Microsoft Learn][5])
