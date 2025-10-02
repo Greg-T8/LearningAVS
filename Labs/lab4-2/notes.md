@@ -11,8 +11,9 @@
 
 * [Objective 1: Assign a built-in Azure Policy](#objective-1-assign-a-built-in-azure-policy)
   * [Create a policy assignment](#create-a-policy-assignment)
-  * [Identify non-compliant resources](#identify-non-compliant-resources)
 * [Objective 2: Onboard the server into Azure Automanage Machine Configuration](#objective-2-onboard-the-server-into-azure-automanage-machine-configuration)
+* [Objective 3: Validate compliance reporting in the Portal](#objective-3-validate-compliance-reporting-in-the-portal)
+  * [Identify non-compliant resources](#identify-non-compliant-resources)
 
 ## Objective 1: Assign a built-in Azure Policy
 
@@ -35,28 +36,6 @@
 7. The **Assignment name** will auto-fill with the policy name. Keep the default and leave other options unchanged.
 8. Skip the additional tabs. Select **Review + Create**, then select **Create**.
 9. The policy is now assigned. You can check for noncompliant resources to understand your environment’s compliance state.
-
-### Identify non-compliant resources
-
-1. In the Azure portal, open **Policy**.
-2. From the left menu, select **Compliance**.
-3. Locate the **Azure Defender for servers should be enabled** policy assignment.
-4. Any resources not meeting the assignment will show **Non-compliant** under Compliance state.
-
-      <img src='images/2025-10-02-04-12-42.png' width=800>
-
-Compliance is determined by evaluating conditions against resources:
-
-| Resource state | Effect                                                    | Policy evaluation | Compliance state |
-| -------------- | --------------------------------------------------------- | ----------------- | ---------------- |
-| Exists         | Deny, Audit, Append*, DeployIfNotExist*, AuditIfNotExist* | True              | Non-compliant    |
-| Exists         | Deny, Audit, Append*, DeployIfNotExist*, AuditIfNotExist* | False             | Compliant        |
-| New            | Audit, AuditIfNotExist*                                   | True              | Non-compliant    |
-| New            | Audit, AuditIfNotExist*                                   | False             | Compliant        |
-
-*Append, DeployIfNotExist, and AuditIfNotExist require the IF condition to be **true** and the existence condition to be **false** for a resource to be marked noncompliant.*
-
-<img src='images/2025-10-02-04-15-50.png' width=500>
 
 ## Objective 2: Onboard the server into Azure Automanage Machine Configuration
 
@@ -82,3 +61,29 @@ Machine configurations differ from policy definitions. While Azure Policy is use
 Per [Deploy requirements for Azure virtual machines](https://learn.microsoft.com/en-us/azure/governance/machine-configuration/overview#deploy-requirements-for-azure-virtual-machines), this extension is already included in the Arc Connected Machine agent.
 
 <img src='images/2025-10-02-04-39-40.png' width=600>
+
+## Objective 3: Validate compliance reporting in the Portal
+
+### Identify non-compliant resources
+
+* [Assign policy to assess compliance](https://learn.microsoft.com/en-us/azure/azure-arc/servers/tutorial-assign-policy-portal)
+
+1. In the Azure portal, open **Policy**.
+2. From the left menu, select **Compliance**.
+3. Locate the **Azure Defender for servers should be enabled** policy assignment.
+4. Any resources not meeting the assignment will show **Non-compliant** under Compliance state.
+
+      <img src='images/2025-10-02-04-12-42.png' width=800>
+
+Compliance is determined by evaluating conditions against resources:
+
+| Resource state | Effect                                                    | Policy evaluation | Compliance state |
+| -------------- | --------------------------------------------------------- | ----------------- | ---------------- |
+| Exists         | Deny, Audit, Append*, DeployIfNotExist*, AuditIfNotExist* | True              | Non-compliant    |
+| Exists         | Deny, Audit, Append*, DeployIfNotExist*, AuditIfNotExist* | False             | Compliant        |
+| New            | Audit, AuditIfNotExist*                                   | True              | Non-compliant    |
+| New            | Audit, AuditIfNotExist*                                   | False             | Compliant        |
+
+*Append, DeployIfNotExist, and AuditIfNotExist require the IF condition to be **true** and the existence condition to be **false** for a resource to be marked noncompliant.*
+
+<img src='images/2025-10-02-04-15-50.png' width=500>
