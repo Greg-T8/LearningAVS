@@ -44,7 +44,7 @@ This learning path is designed to prepare architects to lead the end-to-end desi
 This is a custom learning path I created to quickly ramp up on Azure Arc, specifically Azure Arc for Servers.
 
 - [x] [Lab 4-1: Onboarding a Server](./Labs/lab4-1/notes.md) - completed 10/1/25
-- [ ] [Lab 4-2: Azure Policy and Guest Configuration](tbd)
+- [x] [Lab 4-2: Azure Policy and Guest Configuration](.labs/lab4-2/notes.md) - completed 10/2/25
 - [ ] [Lab 4-3: Security with Defender for Cloud](tbd)
 - [ ] [Lab 4-4: Monitoring and Log Analytics](tbd)
 - [ ] [Lab 4-5: Update Management and Inventory](tbd)
