@@ -9,10 +9,10 @@
 <!-- omit in toc -->
 ## Contents
 
-* [Objective 1: Assign a built-in Azure Policy](#objective-1-assign-a-built-in-azure-policy)
+* [x] [Objective 1: Assign a built-in Azure Policy](#objective-1-assign-a-built-in-azure-policy)
   * [Create a policy assignment](#create-a-policy-assignment)
-* [Objective 2: Onboard the server into Azure Automanage Machine Configuration](#objective-2-onboard-the-server-into-azure-automanage-machine-configuration)
-* [Objective 3: Validate compliance reporting in the Portal](#objective-3-validate-compliance-reporting-in-the-portal)
+* [x] [Objective 2: Onboard the server into Azure Automanage Machine Configuration](#objective-2-onboard-the-server-into-azure-automanage-machine-configuration)
+* [x] [Objective 3: Validate compliance reporting in the Portal](#objective-3-validate-compliance-reporting-in-the-portal)
   * [Identify non-compliant resources](#identify-non-compliant-resources)
 
 ## Objective 1: Assign a built-in Azure Policy
