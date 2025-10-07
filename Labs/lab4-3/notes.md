@@ -17,7 +17,6 @@
   * [**Step 3: Validate Defender Integration**](#step-3-validate-defender-integration)
   * [**Step 4: Review Recommendations**](#step-4-review-recommendations)
   * [**Step 5: Trigger Vulnerability Scan**](#step-5-trigger-vulnerability-scan)
-* [⚡ Bonus: Automate Defender Deployment at Scale](#-bonus-automate-defender-deployment-at-scale)
 * [✅ Validation Checklist](#-validation-checklist)
 * [🔗 Reference Docs](#-reference-docs)
 
@@ -105,33 +104,17 @@ Run `azcmagent show` to confirm connectivity:
   * OS vulnerabilities.
 * You can remediate directly or export recommendations.
 
----
+<img src='images/2025-10-07-05-03-05.png' width=600>
 
 ### **Step 5: Trigger Vulnerability Scan**
 
 For Windows or Linux Arc-enabled servers:
 
-* Defender automatically deploys the **Microsoft Defender Vulnerability Management (MDVM)** component (Plan 2).
-* You can verify by checking:
+* Defender automatically deploys the **Microsoft Defender Vulnerability Management (MDVM)** component.
 
-  ```
-  Get-MpComputerStatus
-  ```
+View the results in **Defender for Cloud → Inventory → Vulnerabilities**.
 
-  or viewing results in **Defender for Cloud → Inventory → Vulnerabilities**.
-
----
-
-## ⚡ Bonus: Automate Defender Deployment at Scale
-
-If you’re onboarding dozens of servers, use **Azure Policy**:
-
-* Built-in initiative:
-  **“Configure machines to automatically install the Azure Monitor and Defender for Servers extensions”**
-* Scope it to your Resource Group or Subscription.
-* Arc onboarding + policy = automatic Defender + monitoring setup.
-
----
+  <img src='images/2025-10-07-05-00-12.png' width=700>
 
 ## ✅ Validation Checklist
 
@@ -139,19 +122,9 @@ If you’re onboarding dozens of servers, use **Azure Policy**:
 | --------------------------------- | ---------------------------------------------- |
 | Arc agent installed               | Appears in Azure Arc → Servers                 |
 | Defender for Servers enabled      | “Defender for Servers” plan shows ON           |
-| Auto-billing flag enabled         | `AZCM_AGENT_ALLOW_BILLING=true` used           |
 | Recommendations visible           | Security findings appear in Defender for Cloud |
 | Vulnerability scan data available | Found under “Vulnerability Assessment” blade   |
 
 ---
 
 ## 🔗 Reference Docs
-
-* [Enable Defender for Servers](https://learn.microsoft.com/en-us/azure/defender-for-cloud/enable-defender-for-servers)
-* [Connect hybrid machines with Azure Arc](https://learn.microsoft.com/en-us/azure/azure-arc/servers/learn/quick-enable-hybrid-vm)
-* [Defender for Servers architecture](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-servers-introduction)
-* [Azure Policy for Defender and Arc](https://learn.microsoft.com/en-us/azure/defender-for-cloud/azure-policy-integration)
-
----
-
-Would you like me to follow this with **Lab 4 – Monitoring & Log Analytics**, using the same hands-on format (commands + portal steps + validation table)?
