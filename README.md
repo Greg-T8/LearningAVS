@@ -13,6 +13,13 @@ With AVS, organizations can:
 - Extend their datacenter capacity on demand.
 - Integrate VMware workloads with native Azure services (storage, networking, security, monitoring, and more).
 
+## Important Links
+
+* [AVS Region Availability](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/table)
+* [AVS Landing Zone Accelerator](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/enterprise-scale-landing-zone)
+* [AVS Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/)
+* [AVS Documentation](https://learn.microsoft.com/en-us/azure/azure-vmware/)
+
 ## Azure VMware Solution - Foundation
 
 This learning path is designed to provide a foundational understanding of Azure VMware Solution (AVS): what it is, when to use it, and how it fits into a broader cloud strategy. It equips team members with the core concepts, terminology, and business drivers behind AVS, while aligning to Microsoft’s Cloud Adoption Framework.
