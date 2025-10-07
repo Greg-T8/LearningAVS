@@ -92,7 +92,7 @@ Run `azcmagent show` to confirm connectivity:
    * Show as **“Monitored by Defender for Servers”**.
    * Begin collecting vulnerability and security data.
 
----
+  <img src='images/2025-10-07-04-20-57.png' width=700>
 
 ### **Step 4: Review Recommendations**
 
