@@ -61,15 +61,15 @@ To make this happen automatically, you must:
    * Select your subscription.
    * Under **Defender plans**, turn on **Servers** (Plan 2 recommended).
 
-      <img src='images/2025-10-07-03-39-49.png' width=800>
+      <img src='images/2025-10-07-03-39-49.png' width=600>
 
       **Workload Settings:**  
 
-      <img src='images/2025-10-07-03-40-28.png' width=800>
+      <img src='images/2025-10-07-03-40-28.png' width=600>
 
       **Defender for Servers Plan Features:**  
 
-      <img src='images/2025-10-07-03-41-08.png' width=600>
+      <img src='images/2025-10-07-03-41-08.png' width=400>
 
 ### Step 2: Connect a Server to Azure Arc
 
@@ -114,7 +114,7 @@ For Windows or Linux Arc-enabled servers:
 
 View the results in **Defender for Cloud → Inventory → Vulnerabilities**.
 
-  <img src='images/2025-10-07-05-00-12.png' width=700>
+  <img src='images/2025-10-07-05-00-12.png' width=600>
 
 ## ✅ Validation Checklist
 
