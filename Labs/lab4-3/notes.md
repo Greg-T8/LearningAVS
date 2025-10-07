@@ -74,38 +74,13 @@ To make this happen automatically, you must:
 
 ### **Step 2: Connect a Server to Azure Arc**
 
-Use PowerShell or a script (Windows example):
+Use the PowerShell script from the **Add a single server** tab to register the VM with Azure Arc:
 
-```powershell
-# Variables
-$ResourceGroup = "ArcLab-RG"
-$Location = "eastus"
-$SubscriptionId = "<YourSubscriptionID>"
+<img src='images/2025-10-07-04-16-04.png' width=800>
 
-# Download the Connected Machine agent
-Invoke-WebRequest -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi
+Run `azcmagent show` to confirm connectivity:
 
-# Install and connect (Service Principal method)
-$ServicePrincipalId = "<AppId>"
-$ServicePrincipalSecret = "<Secret>"
-$TenantId = "<TenantId>"
-
-msiexec /i AzureConnectedMachineAgent.msi /l*v installationlog.txt /qn `
-  ADD_OPINSIGHTS_WORKSPACE=0 `
-  /norestart `
-  AZCM_AGENT_ALLOW_BILLING=true `
-  RESOURCEGROUP=$ResourceGroup `
-  LOCATION=$Location `
-  SUBSCRIPTION_ID=$SubscriptionId `
-  TENANT_ID=$TenantId `
-  SERVICE_PRINCIPAL_ID=$ServicePrincipalId `
-  SERVICE_PRINCIPAL_SECRET=$ServicePrincipalSecret
-```
-
-✅ The key flag here is **`AZCM_AGENT_ALLOW_BILLING=true`** —
-this enables Defender for Servers to auto-provision when the Arc agent connects.
-
----
+<img src='images/2025-10-07-04-17-17.png' width=800>
 
 ### **Step 3: Validate Defender Integration**
 
