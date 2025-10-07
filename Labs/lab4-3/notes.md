@@ -12,11 +12,11 @@
 * [🧩 Part 1 – Background](#-part-1--background)
 * [⚙️ Part 2 – Prerequisites](#️-part-2--prerequisites)
 * [🧪 Part 3 – Lab Steps](#-part-3--lab-steps)
-  * [**Step 1: Enable Defender for Servers**](#step-1-enable-defender-for-servers)
-  * [**Step 2: Connect a Server to Azure Arc**](#step-2-connect-a-server-to-azure-arc)
-  * [**Step 3: Validate Defender Integration**](#step-3-validate-defender-integration)
-  * [**Step 4: Review Recommendations**](#step-4-review-recommendations)
-  * [**Step 5: Trigger Vulnerability Scan**](#step-5-trigger-vulnerability-scan)
+  * [Step 1: Enable Defender for Servers](#step-1-enable-defender-for-servers)
+  * [Step 2: Connect a Server to Azure Arc](#step-2-connect-a-server-to-azure-arc)
+  * [Step 3: Validate Defender Integration](#step-3-validate-defender-integration)
+  * [Step 4: Review Recommendations](#step-4-review-recommendations)
+  * [Step 5: Trigger Vulnerability Scan](#step-5-trigger-vulnerability-scan)
 * [✅ Validation Checklist](#-validation-checklist)
 * [🔗 Reference Docs](#-reference-docs)
 
@@ -53,7 +53,7 @@ To make this happen automatically, you must:
 
 ## 🧪 Part 3 – Lab Steps
 
-### **Step 1: Enable Defender for Servers**
+### Step 1: Enable Defender for Servers
 
 1. In Azure Portal:
 
@@ -71,7 +71,7 @@ To make this happen automatically, you must:
 
       <img src='images/2025-10-07-03-41-08.png' width=600>
 
-### **Step 2: Connect a Server to Azure Arc**
+### Step 2: Connect a Server to Azure Arc
 
 Use the PowerShell script from the **Add a single server** tab to register the VM with Azure Arc:
 
@@ -81,7 +81,7 @@ Run `azcmagent show` to confirm connectivity:
 
 <img src='images/2025-10-07-04-17-17.png' width=800>
 
-### **Step 3: Validate Defender Integration**
+### Step 3: Validate Defender Integration
 
 1. Go to **Defender for Cloud → Inventory**.
 2. Filter for “Arc” under **Resource type**.
@@ -93,7 +93,7 @@ Run `azcmagent show` to confirm connectivity:
 
   <img src='images/2025-10-07-04-20-57.png' width=700>
 
-### **Step 4: Review Recommendations**
+### Step 4: Review Recommendations
 
 * Navigate to:
   **Defender for Cloud → Workload Protections → Recommendations**
@@ -106,7 +106,7 @@ Run `azcmagent show` to confirm connectivity:
 
 <img src='images/2025-10-07-05-03-05.png' width=600>
 
-### **Step 5: Trigger Vulnerability Scan**
+### Step 5: Trigger Vulnerability Scan
 
 For Windows or Linux Arc-enabled servers:
 
